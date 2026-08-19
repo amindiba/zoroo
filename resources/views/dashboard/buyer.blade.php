@@ -1,15 +1,48 @@
-<x-app-layout>
+<div>
 
-<div class="p-6">
+    <h3 class="text-xl font-bold mb-4">
+        پنل خریدار
+    </h3>
 
-<h1>
-داشبورد خریدار
-</h1>
 
-<p>
-خوش آمدید {{ $user->name }}
-</p>
+    <div class="space-y-3">
+
+
+        <div class="bg-gray-100 p-4 rounded-lg">
+
+            <strong>
+                جستجوی محصولات:
+            </strong>
+
+            به زودی
+
+        </div>
+
+
+
+        <div class="bg-gray-100 p-4 rounded-lg">
+
+            <strong>
+                درخواست‌های خرید:
+            </strong>
+
+            به زودی
+
+        </div>
+
+
+
+        <div class="bg-gray-100 p-4 rounded-lg">
+
+            <strong>
+                سفارش‌ها:
+            </strong>
+
+            به زودی
+
+        </div>
+
+
+    </div>
 
 </div>
-
-</x-app-layout>

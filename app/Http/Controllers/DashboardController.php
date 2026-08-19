@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class DashboardController extends Controller
 {
     public function index()
@@ -11,31 +9,31 @@ class DashboardController extends Controller
         $user = auth()->user();
 
 
-        if (!$user || !$user->role) {
-            abort(403, 'Invalid role');
+        if (!$user) {
+
+            abort(403);
+
         }
 
 
-        return match ($user->role->slug) {
+        $role = $user->role?->slug;
 
 
-            'admin' => view('dashboard.admin', [
-                'user' => $user,
-            ]),
+
+        if (!$role) {
+
+            abort(403, 'Invalid role');
+
+        }
 
 
-            'producer' => view('dashboard.producer', [
-                'user' => $user,
-            ]),
 
+        return view('dashboard.index', [
 
-            'buyer' => view('dashboard.buyer', [
-                'user' => $user,
-            ]),
+            'user' => $user,
 
+            'role' => $role,
 
-            default => abort(403, 'Invalid role'),
-
-        };
+        ]);
     }
 }

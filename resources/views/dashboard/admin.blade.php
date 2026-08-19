@@ -1,15 +1,36 @@
-<x-app-layout>
+<div>
 
-<div class="p-6">
+    <h3 class="text-xl font-bold mb-4">
+        پنل مدیریت
+    </h3>
 
-<h1>
-داشبورد مدیر
-</h1>
 
-<p>
-خوش آمدید {{ $user->name }}
-</p>
+    <div class="space-y-3">
+
+
+        <div class="bg-gray-100 p-4 rounded-lg">
+
+            <strong>
+                کاربران:
+            </strong>
+
+            مدیریت کاربران
+
+        </div>
+
+
+
+        <div class="bg-gray-100 p-4 rounded-lg">
+
+            <strong>
+                سیستم:
+            </strong>
+
+            تنظیمات مدیریت
+
+        </div>
+
+
+    </div>
 
 </div>
-
-</x-app-layout>

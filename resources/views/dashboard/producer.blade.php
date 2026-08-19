@@ -1,93 +1,56 @@
-<x-app-layout>
+<div>
 
-    <x-slot name="header">
-
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            داشبورد تولیدکننده
-        </h2>
-
-    </x-slot>
+    <h3 class="text-xl font-bold mb-4">
+        پنل تولیدکننده
+    </h3>
 
 
-    <div class="py-12">
-
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-
-                <div class="p-6 text-gray-900">
+    <div class="space-y-3">
 
 
-                    <h1 class="text-xl font-bold mb-4">
-                        داشبورد تولیدکننده
-                    </h1>
+        <div class="bg-gray-100 p-4 rounded-lg">
 
+            <strong>
+                وضعیت پروفایل:
+            </strong>
 
-                    <p class="mb-4">
-                        خوش آمدید {{ $user->name }}
-                    </p>
+            @if(auth()->user()->producerProfile)
 
+                تکمیل شده
 
+            @else
 
-                    @if($user->producerProfile)
+                نیاز به تکمیل پروفایل
 
-
-                        <div>
-
-                            <p>
-                                وضعیت پروفایل کارخانه:
-                                <strong>
-                                    {{ $user->producerProfile->status }}
-                                </strong>
-                            </p>
-
-
-                            <div class="mt-4">
-
-                                <a href="{{ route('producer.profile.show') }}"
-                                   class="underline">
-
-                                    مشاهده پروفایل کارخانه
-
-                                </a>
-
-
-                                <br>
-
-
-                                <a href="{{ route('producer.profile.edit') }}"
-                                   class="underline">
-
-                                    ویرایش اطلاعات
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-
-                    @else
-
-
-                        <a href="{{ route('producer.profile.create') }}"
-                           class="underline">
-
-                            ثبت اطلاعات کارخانه
-
-                        </a>
-
-
-                    @endif
-
-
-                </div>
-
-            </div>
+            @endif
 
         </div>
 
+
+
+        <div class="bg-gray-100 p-4 rounded-lg">
+
+            <strong>
+                محصولات:
+            </strong>
+
+            به زودی
+
+        </div>
+
+
+
+        <div class="bg-gray-100 p-4 rounded-lg">
+
+            <strong>
+                درخواست‌های خرید:
+            </strong>
+
+            به زودی
+
+        </div>
+
+
     </div>
 
-
-</x-app-layout>
+</div>
