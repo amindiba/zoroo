@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use App\Models\Role;
+use App\Models\ProducerProfile;
+use App\Models\BuyerProfile;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -31,19 +33,40 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+    'name' => ['required', 'string', 'max:255'],
+    'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+    'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    'role' => [
+        'required',
+        'exists:roles,slug',
+    ],
+]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $role = Role::where('slug', $request->role)->first();
+
+$user = User::create([
+    'name' => $request->name,
+    'email' => $request->email,
+    'password' => Hash::make($request->password),
+    'role_id' => $role->id,
+]);
 
         event(new Registered($user));
+if ($role->slug === 'producer') {
 
+    ProducerProfile::create([
+        'user_id' => $user->id,
+    ]);
+
+}
+
+if ($role->slug === 'buyer') {
+
+    BuyerProfile::create([
+        'user_id' => $user->id,
+    ]);
+
+}
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));

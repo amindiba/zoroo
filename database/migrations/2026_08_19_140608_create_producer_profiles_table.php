@@ -15,10 +15,10 @@ return new class extends Migration
     $table->id();
 
     $table->foreignId('user_id')
-          ->constrained()
-          ->cascadeOnDelete();
+        ->constrained()
+        ->cascadeOnDelete();
 
-    $table->string('company_name');
+    $table->string('company_name')->nullable();
     $table->string('national_id')->nullable();
     $table->string('phone')->nullable();
     $table->text('description')->nullable();
