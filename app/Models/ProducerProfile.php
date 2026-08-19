@@ -6,16 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProducerProfile extends Model
 {
+
     protected $fillable = [
         'user_id',
         'company_name',
-        'national_id',
+        'manager_name',
         'phone',
+        'province',
+        'city',
         'description',
+        'status',
     ];
+
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
 }

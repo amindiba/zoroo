@@ -12,18 +12,39 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('producer_profiles', function (Blueprint $table) {
+
     $table->id();
 
     $table->foreignId('user_id')
         ->constrained()
         ->cascadeOnDelete();
 
-    $table->string('company_name')->nullable();
-    $table->string('national_id')->nullable();
-    $table->string('phone')->nullable();
-    $table->text('description')->nullable();
+    $table->string('company_name');
+
+    $table->string('manager_name')
+        ->nullable();
+
+    $table->string('phone')
+        ->nullable();
+
+    $table->string('province')
+        ->nullable();
+
+    $table->string('city')
+        ->nullable();
+
+    $table->text('description')
+        ->nullable();
+
+    $table->enum('status', [
+        'pending',
+        'approved'
+    ])
+    ->default('pending');
+
 
     $table->timestamps();
+
 });
     }
 

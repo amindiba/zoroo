@@ -11,12 +11,7 @@ return new class extends Migration
      */
     public function up(): void
 {
-    Schema::table('producer_profiles', function (Blueprint $table) {
-        $table->string('company_name')->nullable()->change();
-        $table->string('national_id')->nullable()->change();
-        $table->string('phone')->nullable()->change();
-        $table->text('description')->nullable()->change();
-    });
+ //
 }
 
     /**
@@ -24,11 +19,6 @@ return new class extends Migration
      */
     public function down(): void
 {
-    Schema::table('producer_profiles', function (Blueprint $table) {
-        $table->string('company_name')->nullable(false)->change();
-        $table->string('national_id')->nullable(false)->change();
-        $table->string('phone')->nullable(false)->change();
-        $table->text('description')->nullable(false)->change();
-    });
+    //
 }
 };

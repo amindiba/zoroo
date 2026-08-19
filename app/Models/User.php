@@ -60,4 +60,5 @@ public function buyerProfile()
 {
     return $this->hasOne(BuyerProfile::class);
 }
+
 }

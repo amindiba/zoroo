@@ -9,19 +9,35 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        Role::insert([
+        $roles = [
+
             [
                 'name' => 'Admin',
                 'slug' => 'admin',
             ],
+
             [
                 'name' => 'Producer',
                 'slug' => 'producer',
             ],
+
             [
                 'name' => 'Buyer',
                 'slug' => 'buyer',
             ],
-        ]);
+
+        ];
+
+
+        foreach ($roles as $role) {
+
+            Role::updateOrCreate(
+                [
+                    'slug' => $role['slug']
+                ],
+                $role
+            );
+
+        }
     }
 }
