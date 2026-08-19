@@ -1,13 +1,15 @@
-<x-dashboard-layout>
+<x-app-layout>
 
-<h1 class="text-2xl font-bold">
-پنل خریدار
+<div class="p-6">
+
+<h1>
+داشبورد خریدار
 </h1>
 
-
 <p>
-مدیریت درخواست‌های خرید
+خوش آمدید {{ $user->name }}
 </p>
 
+</div>
 
-</x-dashboard-layout>
+</x-app-layout>

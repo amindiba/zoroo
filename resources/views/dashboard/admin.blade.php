@@ -1,13 +1,15 @@
-<x-dashboard-layout>
+<x-app-layout>
 
-<h1 class="text-2xl font-bold">
-پنل مدیریت Zoroo
+<div class="p-6">
+
+<h1>
+داشبورد مدیر
 </h1>
 
-
 <p>
-مدیریت کاربران و سامانه
+خوش آمدید {{ $user->name }}
 </p>
 
+</div>
 
-</x-dashboard-layout>
+</x-app-layout>

@@ -2,16 +2,27 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        $producerRole = Role::where('slug', 'producer')->first();
+
+
+        User::updateOrCreate(
+            [
+                'email' => 'producer@zoroo.test'
+            ],
+            [
+                'name' => 'Producer Test',
+                'password' => Hash::make('password'),
+                'role_id' => $producerRole->id,
+            ]
+        );
     }
 }

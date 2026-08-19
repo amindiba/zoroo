@@ -1,13 +1,35 @@
-<x-dashboard-layout>
+<x-app-layout>
 
-<h1 class="text-2xl font-bold">
-پنل تولیدکننده
-</h1>
+    <div class="p-6">
 
-
-<p>
-مدیریت کارخانه و محصولات
-</p>
+        <h1>
+            داشبورد تولیدکننده
+        </h1>
 
 
-</x-dashboard-layout>
+        <p>
+            خوش آمدید {{ $user->name }}
+        </p>
+
+
+        @if($user->producerProfile)
+
+            <div>
+                وضعیت پروفایل کارخانه:
+
+                {{ $user->producerProfile->status }}
+
+            </div>
+
+        @else
+
+            <a href="{{ route('producer.profile.create') }}">
+                ثبت اطلاعات کارخانه
+            </a>
+
+        @endif
+
+
+    </div>
+
+</x-app-layout>
