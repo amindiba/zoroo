@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\ProducerProfile;
+use App\Models\BuyerProfile;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
     ];
 
     /**
@@ -45,4 +47,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function role()
+{
+    return $this->belongsTo(Role::class);
+}
+public function producerProfile()
+{
+    return $this->hasOne(ProducerProfile::class);
+}
+
+public function buyerProfile()
+{
+    return $this->hasOne(BuyerProfile::class);
+}
 }
