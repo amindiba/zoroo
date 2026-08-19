@@ -6,60 +6,121 @@ use Illuminate\Database\Seeder;
 use App\Models\Category;
 use Illuminate\Support\Str;
 
-
 class CategorySeeder extends Seeder
 {
-
     public function run(): void
     {
 
         $categories = [
 
-            'صنایع فلزی',
+            [
+                'name' => 'صنایع فلزی',
+                'children' => [
+                    'فولاد',
+                    'آلومینیوم',
+                ],
+            ],
 
-            'مواد ساختمانی',
 
-            'ماشین آلات صنعتی',
+            [
+                'name' => 'مواد ساختمانی',
+                'children' => [
+                    'سیمان',
+                    'کاشی و سرامیک',
+                ],
+            ],
 
-            'مواد غذایی',
 
-            'کشاورزی',
+            [
+                'name' => 'ماشین آلات صنعتی',
+                'children' => [
+                    'تجهیزات تولید',
+                    'ابزار صنعتی',
+                ],
+            ],
 
-            'شیمیایی',
 
-            'نساجی',
+            [
+                'name' => 'مواد غذایی',
+                'children' => [
+                    'محصولات کشاورزی',
+                    'مواد فرآوری شده',
+                ],
+            ],
+
+
+            [
+                'name' => 'کشاورزی',
+                'children' => [
+                    'محصولات زراعی',
+                    'تجهیزات کشاورزی',
+                ],
+            ],
+
+
+            [
+                'name' => 'شیمیایی',
+                'children' => [
+                    'مواد اولیه شیمیایی',
+                    'محصولات صنعتی شیمیایی',
+                ],
+            ],
+
+
+            [
+                'name' => 'نساجی',
+                'children' => [
+                    'پارچه',
+                    'الیاف',
+                ],
+            ],
 
         ];
 
 
 
-        foreach ($categories as $category) {
+        foreach ($categories as $categoryData) {
 
 
-            Category::firstOrCreate(
+            $parent = Category::firstOrCreate(
 
                 [
-
-                    'slug' => Str::slug($category),
-
+                    'slug' => Str::slug($categoryData['name']),
                 ],
 
-
                 [
-
-                    'name' => $category,
-
+                    'name' => $categoryData['name'],
                     'description' => null,
-
                     'status' => true,
-
                 ]
 
             );
 
 
+
+            foreach ($categoryData['children'] as $child) {
+
+
+                Category::firstOrCreate(
+
+                    [
+                        'slug' => Str::slug($child),
+                    ],
+
+                    [
+                        'name' => $child,
+                        'parent_id' => $parent->id,
+                        'description' => null,
+                        'status' => true,
+                    ]
+
+                );
+
+
+            }
+
+
         }
 
     }
-
 }

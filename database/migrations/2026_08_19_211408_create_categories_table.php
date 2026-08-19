@@ -17,16 +17,23 @@ return new class extends Migration
             $table->string('slug')
                 ->unique();
 
+
             $table->foreignId('parent_id')
                 ->nullable()
                 ->constrained('categories')
                 ->nullOnDelete();
 
+
+            $table->index('parent_id');
+
+
             $table->text('description')
                 ->nullable();
 
+
             $table->boolean('status')
                 ->default(true);
+
 
             $table->timestamps();
 

@@ -11,12 +11,29 @@ class Category extends Model
 
 
     protected $fillable = [
+
         'name',
+
         'slug',
+
         'parent_id',
+
         'description',
+
         'status',
+
     ];
+
+
+
+    protected function casts(): array
+    {
+        return [
+
+            'status' => 'boolean',
+
+        ];
+    }
 
 
 
@@ -29,13 +46,20 @@ class Category extends Model
 
     public function parent()
     {
-        return $this->belongsTo(Category::class, 'parent_id');
+        return $this->belongsTo(
+            Category::class,
+            'parent_id'
+        );
     }
 
 
 
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id');
+        return $this->hasMany(
+            Category::class,
+            'parent_id'
+        );
     }
+
 }

@@ -45,6 +45,7 @@
 
 
 
+
                     <div class="space-y-4">
 
 
@@ -63,6 +64,7 @@
 
 
 
+
                         <div>
 
                             <strong>
@@ -70,9 +72,30 @@
                             </strong>
 
 
-                            {{ $product->category?->name ?? '-' }}
+                            @if($product->category)
+
+                                @if($product->category->parent)
+
+                                    {{ $product->category->parent->name }}
+                                    /
+                                    {{ $product->category->name }}
+
+                                @else
+
+                                    {{ $product->category->name }}
+
+                                @endif
+
+
+                            @else
+
+                                -
+
+                            @endif
+
 
                         </div>
+
 
 
 
@@ -95,6 +118,7 @@
 
 
 
+
                         <div>
 
                             <strong>
@@ -105,6 +129,7 @@
                             {{ $product->province ?? '-' }}
 
                         </div>
+
 
 
 
@@ -123,6 +148,7 @@
 
 
 
+
                         <div>
 
                             <strong>
@@ -131,31 +157,26 @@
 
 
 
-                            @switch($product->status)
+                            @if($product->status === 'active')
 
-                                @case('active')
-
-                                    فعال
-
-                                    @break
+                                فعال
 
 
-                                @case('pending')
+                            @elseif($product->status === 'pending')
 
-                                    در انتظار تایید
-
-                                    @break
+                                در انتظار تایید
 
 
-                                @default
+                            @else
 
-                                    غیرفعال
+                                غیرفعال
 
 
-                            @endswitch
+                            @endif
 
 
                         </div>
+
 
 
 
@@ -174,6 +195,7 @@
 
 
                     </div>
+
 
 
 

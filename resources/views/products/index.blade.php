@@ -44,6 +44,7 @@
 
 
 
+
                     @if(session('success'))
 
                         <div class="mb-4 text-green-600">
@@ -75,49 +76,37 @@
 
 
                                         <th class="border p-3 text-right">
-
                                             نام محصول
-
                                         </th>
 
 
 
                                         <th class="border p-3 text-right">
-
                                             دسته‌بندی
-
                                         </th>
 
 
 
                                         <th class="border p-3 text-right">
-
                                             استان
-
                                         </th>
 
 
 
                                         <th class="border p-3 text-right">
-
                                             شهر
-
                                         </th>
 
 
 
                                         <th class="border p-3 text-right">
-
                                             وضعیت
-
                                         </th>
 
 
 
                                         <th class="border p-3 text-right">
-
                                             عملیات
-
                                         </th>
 
 
@@ -147,11 +136,34 @@
 
 
 
+
                                         <td class="border p-3">
 
-                                            {{ $product->category?->name ?? '-' }}
+
+                                            @if($product->category)
+
+                                                @if($product->category->parent)
+
+                                                    {{ $product->category->parent->name }}
+                                                    /
+                                                    {{ $product->category->name }}
+
+                                                @else
+
+                                                    {{ $product->category->name }}
+
+                                                @endif
+
+
+                                            @else
+
+                                                -
+
+                                            @endif
+
 
                                         </td>
+
 
 
 
@@ -165,6 +177,7 @@
 
 
 
+
                                         <td class="border p-3">
 
                                             {{ $product->city ?? '-' }}
@@ -174,34 +187,30 @@
 
 
 
+
                                         <td class="border p-3">
 
 
-                                            @switch($product->status)
+                                            @if($product->status === 'active')
 
-                                                @case('active')
-
-                                                    فعال
-
-                                                    @break
+                                                فعال
 
 
-                                                @case('pending')
+                                            @elseif($product->status === 'pending')
 
-                                                    در انتظار تایید
-
-                                                    @break
+                                                در انتظار تایید
 
 
-                                                @default
+                                            @else
 
-                                                    غیرفعال
+                                                غیرفعال
 
 
-                                            @endswitch
+                                            @endif
 
 
                                         </td>
+
 
 
 
@@ -221,6 +230,7 @@
 
 
 
+
                                             <a
                                                 href="{{ route('products.edit', $product->id) }}"
                                                 class="text-green-600 mr-2"
@@ -229,6 +239,7 @@
                                                 ویرایش
 
                                             </a>
+
 
 
 

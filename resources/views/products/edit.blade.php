@@ -57,6 +57,7 @@
 
 
 
+
                         {{-- دسته بندی محصول --}}
 
                         <div class="mb-4">
@@ -85,6 +86,7 @@
                                         {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}
                                     >
 
+                                        {{ $category->parent_id ? '— ' : '' }}
                                         {{ $category->name }}
 
                                     </option>
@@ -105,6 +107,7 @@
 
 
                         </div>
+
 
 
 
@@ -135,6 +138,7 @@
 
 
                         </div>
+
 
 
 
@@ -170,6 +174,7 @@
 
 
 
+
                         {{-- شهر --}}
 
                         <div class="mb-4">
@@ -197,6 +202,7 @@
 
 
                         </div>
+
 
 
 
