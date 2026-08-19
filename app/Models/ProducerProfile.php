@@ -3,9 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class ProducerProfile extends Model
 {
+
+    use HasFactory;
+
+
+
     protected $fillable = [
 
         'user_id',
@@ -27,8 +34,26 @@ class ProducerProfile extends Model
     ];
 
 
+
+
+
+    protected function casts(): array
+    {
+        return [
+
+            'status' => 'string',
+
+        ];
+    }
+
+
+
+
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
 }

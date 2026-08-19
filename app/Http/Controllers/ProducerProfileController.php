@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class ProducerProfileController extends Controller
 {
 
     public function create()
     {
+
         $profile = auth()
             ->user()
             ->producerProfile;
+
 
 
         if ($profile) {
@@ -22,8 +25,12 @@ class ProducerProfileController extends Controller
         }
 
 
+
         return view('producer.profile.create');
+
     }
+
+
 
 
 
@@ -31,6 +38,7 @@ class ProducerProfileController extends Controller
     {
 
         $user = auth()->user();
+
 
 
         if ($user->producerProfile) {
@@ -42,21 +50,55 @@ class ProducerProfileController extends Controller
 
 
 
+
+
         $data = $request->validate([
 
-            'company_name' => 'required|string|max:255',
 
-            'manager_name' => 'required|string|max:255',
+            'company_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
-            'phone' => 'nullable|string|max:20',
 
-            'province' => 'required|string|max:100',
+            'manager_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
-            'city' => 'required|string|max:100',
 
-            'description' => 'nullable|string',
+            'phone' => [
+                'nullable',
+                'string',
+                'max:20',
+            ],
+
+
+            'province' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+
+            'city' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+
+            'description' => [
+                'nullable',
+                'string',
+            ],
+
 
         ]);
+
+
 
 
 
@@ -70,14 +112,19 @@ class ProducerProfileController extends Controller
 
 
 
+
+
         return redirect()
+
             ->route('producer.profile.show')
+
             ->with(
                 'success',
                 'پروفایل تولیدکننده ثبت شد.'
             );
 
     }
+
 
 
 
@@ -91,12 +138,27 @@ class ProducerProfileController extends Controller
 
 
 
+
+        if (!$profile) {
+
+            return redirect()
+                ->route('producer.profile.create');
+
+        }
+
+
+
+
         return view(
+
             'producer.profile.show',
+
             compact('profile')
+
         );
 
     }
+
 
 
 
@@ -109,6 +171,8 @@ class ProducerProfileController extends Controller
             ->producerProfile;
 
 
+
+
         if (!$profile) {
 
             return redirect()
@@ -118,12 +182,17 @@ class ProducerProfileController extends Controller
 
 
 
+
         return view(
+
             'producer.profile.edit',
+
             compact('profile')
+
         );
 
     }
+
 
 
 
@@ -136,6 +205,8 @@ class ProducerProfileController extends Controller
             ->producerProfile;
 
 
+
+
         if (!$profile) {
 
             return redirect()
@@ -145,33 +216,77 @@ class ProducerProfileController extends Controller
 
 
 
+
+
         $data = $request->validate([
 
-            'company_name' => 'required|string|max:255',
 
-            'manager_name' => 'required|string|max:255',
+            'company_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
-            'phone' => 'nullable|string|max:20',
 
-            'province' => 'required|string|max:100',
+            'manager_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
-            'city' => 'required|string|max:100',
 
-            'description' => 'nullable|string',
+            'phone' => [
+                'nullable',
+                'string',
+                'max:20',
+            ],
+
+
+            'province' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+
+            'city' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+
+            'description' => [
+                'nullable',
+                'string',
+            ],
+
 
         ]);
 
 
 
-        $profile->update($data);
+
+
+        $profile->update([
+
+            ...$data,
+
+            'status' => 'pending',
+
+        ]);
+
+
 
 
 
         return redirect()
+
             ->route('producer.profile.show')
+
             ->with(
                 'success',
-                'پروفایل تولیدکننده بروزرسانی شد.'
+                'پروفایل تولیدکننده بروزرسانی شد و برای بررسی مجدد ارسال گردید.'
             );
 
     }

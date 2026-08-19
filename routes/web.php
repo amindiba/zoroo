@@ -9,12 +9,24 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
+
     return view('welcome');
+
 });
 
 
 
+
+
 Route::middleware(['auth', 'verified'])->group(function () {
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
 
 
     Route::get(
@@ -22,6 +34,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         [DashboardController::class, 'index']
     )->name('dashboard');
 
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Profile
+    |--------------------------------------------------------------------------
+    */
 
 
     Route::get(
@@ -47,6 +69,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
+
+
+
     /*
     |--------------------------------------------------------------------------
     | Producer Area
@@ -55,6 +80,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     Route::middleware(['producer'])->group(function () {
+
 
 
 
@@ -102,9 +128,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
+
+
+
         /*
         |--------------------------------------------------------------------------
-        | Products
+        | Producer Products
         |--------------------------------------------------------------------------
         */
 
@@ -112,14 +141,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource(
             'products',
             ProductController::class
-        );
+        )
+        ->names('products');
 
 
 
     });
 
 
+
 });
+
+
 
 
 

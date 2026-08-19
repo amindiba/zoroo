@@ -22,6 +22,7 @@ class DashboardController extends Controller
 
 
 
+
         $user->load([
 
             'role',
@@ -33,7 +34,9 @@ class DashboardController extends Controller
 
 
 
+
         $role = $user->role?->slug;
+
 
 
 
@@ -43,6 +46,7 @@ class DashboardController extends Controller
             abort(403, 'Invalid role');
 
         }
+
 
 
 
@@ -59,11 +63,13 @@ class DashboardController extends Controller
 
 
 
+
         /*
         |--------------------------------------------------------------------------
         | Producer Dashboard Data
         |--------------------------------------------------------------------------
         */
+
 
 
         if ($role === 'producer') {
@@ -75,14 +81,11 @@ class DashboardController extends Controller
 
 
 
-            $data['productCount'] = $products->count();
+            $data['productCount'] = (clone $products)->count();
 
 
 
-
-            $data['pendingProductCount'] = $user
-
-                ->products()
+            $data['pendingProductCount'] = (clone $products)
 
                 ->where('status', 'pending')
 
@@ -91,9 +94,7 @@ class DashboardController extends Controller
 
 
 
-            $data['activeProductCount'] = $user
-
-                ->products()
+            $data['activeProductCount'] = (clone $products)
 
                 ->where('status', 'active')
 
@@ -102,13 +103,12 @@ class DashboardController extends Controller
 
 
 
-            $data['inactiveProductCount'] = $user
-
-                ->products()
+            $data['inactiveProductCount'] = (clone $products)
 
                 ->where('status', 'inactive')
 
                 ->count();
+
 
 
 
@@ -132,7 +132,6 @@ class DashboardController extends Controller
 
 
             $profile = $user->producerProfile;
-
 
 
 
