@@ -13,45 +13,61 @@ return new class extends Migration
 
         Schema::create('products', function (Blueprint $table) {
 
-    $table->id();
 
-
-    $table->foreignId('user_id')
-        ->constrained()
-        ->cascadeOnDelete();
+            $table->id();
 
 
 
-    $table->foreignId('category_id')
-        ->constrained()
-        ->cascadeOnDelete();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
 
 
-    $table->string('name');
-
-
-    $table->text('description')
-        ->nullable();
-
-
-    $table->string('province')
-        ->nullable();
-
-
-    $table->string('city')
-        ->nullable();
+            $table->foreignId('category_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
 
 
-    $table->string('status')
-        ->default('pending');
+            $table->string('name');
 
 
 
-    $table->timestamps();
+            $table->text('description')
+                ->nullable();
 
-});
+
+
+            $table->string('province')
+                ->nullable();
+
+
+
+            $table->string('city')
+                ->nullable();
+
+
+
+            $table->string('status')
+                ->default('pending');
+
+
+
+            $table->index('category_id');
+
+            $table->index('status');
+
+            $table->index('province');
+
+            $table->index('city');
+
+
+
+            $table->timestamps();
+
+        });
+
     }
 
 

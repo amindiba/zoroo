@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Product;
 use Illuminate\Http\Request;
+
 
 class ProductController extends Controller
 {
 
     public function index()
     {
+
         $products = auth()
             ->user()
             ->products()
-            ->with('category')
+            ->with('category.parent')
             ->latest()
             ->get();
 
@@ -23,14 +24,19 @@ class ProductController extends Controller
             'products.index',
             compact('products')
         );
+
     }
+
 
 
 
 
     public function create()
     {
+
         $categories = Category::where('status', true)
+            ->orderBy('parent_id')
+            ->orderBy('name')
             ->get();
 
 
@@ -38,46 +44,65 @@ class ProductController extends Controller
             'products.create',
             compact('categories')
         );
+
     }
+
 
 
 
 
     public function store(Request $request)
     {
+
         $data = $request->validate([
 
+
             'name' => [
+
                 'required',
                 'string',
                 'max:255',
+
             ],
+
 
 
             'description' => [
+
                 'nullable',
                 'string',
+
             ],
+
 
 
             'category_id' => [
+
                 'required',
                 'exists:categories,id',
+
             ],
+
 
 
             'province' => [
+
                 'nullable',
                 'string',
                 'max:100',
+
             ],
+
 
 
             'city' => [
+
                 'nullable',
                 'string',
                 'max:100',
+
             ],
+
 
         ]);
 
@@ -97,22 +122,27 @@ class ProductController extends Controller
 
 
         return redirect()
+
             ->route('products.index')
+
             ->with(
                 'success',
                 'محصول با موفقیت ثبت شد.'
             );
+
     }
+
 
 
 
 
     public function show(string $id)
     {
+
         $product = auth()
             ->user()
             ->products()
-            ->with('category')
+            ->with('category.parent')
             ->findOrFail($id);
 
 
@@ -121,13 +151,16 @@ class ProductController extends Controller
             'products.show',
             compact('product')
         );
+
     }
+
 
 
 
 
     public function edit(string $id)
     {
+
         $product = auth()
             ->user()
             ->products()
@@ -136,6 +169,11 @@ class ProductController extends Controller
 
 
         $categories = Category::where('status', true)
+
+            ->orderBy('parent_id')
+
+            ->orderBy('name')
+
             ->get();
 
 
@@ -147,13 +185,16 @@ class ProductController extends Controller
                 'categories'
             )
         );
+
     }
+
 
 
 
 
     public function update(Request $request, string $id)
     {
+
         $product = auth()
             ->user()
             ->products()
@@ -163,39 +204,56 @@ class ProductController extends Controller
 
         $data = $request->validate([
 
+
             'name' => [
+
                 'required',
                 'string',
                 'max:255',
+
             ],
+
 
 
             'description' => [
+
                 'nullable',
                 'string',
+
             ],
+
 
 
             'category_id' => [
+
                 'required',
                 'exists:categories,id',
+
             ],
+
 
 
             'province' => [
+
                 'nullable',
                 'string',
                 'max:100',
+
             ],
+
 
 
             'city' => [
+
                 'nullable',
                 'string',
                 'max:100',
+
             ],
 
+
         ]);
+
 
 
 
@@ -210,18 +268,23 @@ class ProductController extends Controller
 
 
         return redirect()
+
             ->route('products.index')
+
             ->with(
                 'success',
                 'محصول بروزرسانی شد و برای بررسی مجدد ارسال گردید.'
             );
+
     }
+
 
 
 
 
     public function destroy(string $id)
     {
+
         $product = auth()
             ->user()
             ->products()
@@ -234,11 +297,14 @@ class ProductController extends Controller
 
 
         return redirect()
+
             ->route('products.index')
+
             ->with(
                 'success',
                 'محصول حذف شد.'
             );
+
     }
 
 }

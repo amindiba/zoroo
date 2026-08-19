@@ -11,6 +11,7 @@ class Product extends Model
     use HasFactory;
 
 
+
     protected $fillable = [
 
         'user_id',
@@ -31,10 +32,26 @@ class Product extends Model
 
 
 
+
+    protected function casts(): array
+    {
+        return [
+
+            'status' => 'string',
+
+        ];
+    }
+
+
+
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+
 
 
 

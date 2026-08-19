@@ -2,31 +2,61 @@
 
 namespace App\Http\Controllers;
 
+
 class DashboardController extends Controller
 {
+
     public function index()
     {
+
         $user = auth()->user();
 
+
+
         if (!$user) {
+
             abort(403);
+
         }
 
+
+
+
         $user->load([
+
             'role',
+
             'producerProfile',
+
         ]);
+
+
+
 
         $role = $user->role?->slug;
 
+
+
+
         if (!$role) {
+
             abort(403, 'Invalid role');
+
         }
 
+
+
+
         $data = [
+
             'user' => $user,
+
             'role' => $role,
+
         ];
+
+
+
 
 
         /*
@@ -35,44 +65,114 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         */
 
+
         if ($role === 'producer') {
 
-            $data['productCount'] = $user
+
+
+            $products = $user->products();
+
+
+
+
+            $data['productCount'] = $products->count();
+
+
+
+
+            $data['pendingProductCount'] = $user
+
                 ->products()
+
+                ->where('status', 'pending')
+
                 ->count();
 
 
-            $data['latestProducts'] = $user
+
+
+            $data['activeProductCount'] = $user
+
                 ->products()
-                ->with('category')
+
+                ->where('status', 'active')
+
+                ->count();
+
+
+
+
+            $data['inactiveProductCount'] = $user
+
+                ->products()
+
+                ->where('status', 'inactive')
+
+                ->count();
+
+
+
+
+
+            $data['latestProducts'] = $user
+
+                ->products()
+
+                ->with('category.parent')
+
                 ->latest()
+
                 ->take(5)
+
                 ->get();
+
+
+
+
 
 
             $profile = $user->producerProfile;
 
 
+
+
             $data['profileCompleted'] = false;
+
+
 
 
             if ($profile) {
 
+
+
                 $requiredFields = [
+
                     'company_name',
+
                     'manager_name',
+
                     'phone',
+
                     'province',
+
                     'city',
+
                 ];
 
 
+
+
+
                 $data['profileCompleted'] = collect($requiredFields)
+
                     ->every(function ($field) use ($profile) {
+
 
                         return filled($profile->$field);
 
+
                     });
+
 
             }
 
@@ -80,9 +180,18 @@ class DashboardController extends Controller
         }
 
 
+
+
+
         return view(
+
             'dashboard.index',
+
             $data
+
         );
+
+
     }
+
 }

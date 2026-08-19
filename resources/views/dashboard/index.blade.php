@@ -32,7 +32,6 @@
                         <p class="text-gray-600 mt-2">
 
                             نقش شما:
-
                             {{ $role }}
 
                         </p>
@@ -41,9 +40,10 @@
 
 
 
-                    {{-- Producer Dashboard --}}
+
 
                     @if($role === 'producer')
+
 
 
                         <div class="border rounded-lg p-5 mb-6">
@@ -57,18 +57,14 @@
 
 
 
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
 
 
-
-                                {{-- Product Count --}}
 
                                 <div class="border rounded p-4">
 
                                     <div class="text-gray-600">
-
                                         تعداد محصولات
-
                                     </div>
 
 
@@ -83,7 +79,63 @@
 
 
 
-                                {{-- Profile Status --}}
+
+                                <div class="border rounded p-4">
+
+                                    <div class="text-gray-600">
+                                        در انتظار تایید
+                                    </div>
+
+
+                                    <div class="text-2xl font-bold mt-2">
+
+                                        {{ $pendingProductCount ?? 0 }}
+
+                                    </div>
+
+                                </div>
+
+
+
+
+
+                                <div class="border rounded p-4">
+
+                                    <div class="text-gray-600">
+                                        فعال
+                                    </div>
+
+
+                                    <div class="text-2xl font-bold mt-2">
+
+                                        {{ $activeProductCount ?? 0 }}
+
+                                    </div>
+
+                                </div>
+
+
+
+
+
+                                <div class="border rounded p-4">
+
+                                    <div class="text-gray-600">
+                                        غیرفعال
+                                    </div>
+
+
+                                    <div class="text-2xl font-bold mt-2">
+
+                                        {{ $inactiveProductCount ?? 0 }}
+
+                                    </div>
+
+                                </div>
+
+
+
+
 
                                 <div class="border rounded p-4">
 
@@ -100,7 +152,6 @@
 
 
                                         @if($profileCompleted ?? false)
-
 
                                             <div class="text-green-600">
 
@@ -139,61 +190,59 @@
                                 </div>
 
 
+                            </div>
 
 
-                                {{-- Quick Actions --}}
-
-                                <div class="border rounded p-4">
-
-
-                                    <div class="text-gray-600 mb-3">
-
-                                        دسترسی سریع
-
-                                    </div>
+                        </div>
 
 
 
-                                    <div class="flex flex-col gap-2">
 
 
 
-                                        <a
-                                            href="{{ route('products.create') }}"
-                                            class="bg-blue-600 text-white px-4 py-2 rounded text-center"
-                                        >
-
-                                            ثبت محصول جدید
-
-                                        </a>
+                        <div class="border rounded-lg p-5 mb-6">
 
 
+                            <h4 class="text-lg font-semibold mb-4">
 
-                                        <a
-                                            href="{{ route('products.index') }}"
-                                            class="border border-blue-600 text-blue-600 px-4 py-2 rounded text-center"
-                                        >
+                                دسترسی سریع
 
-                                            مشاهده محصولات
-
-                                        </a>
+                            </h4>
 
 
-
-                                        <a
-                                            href="{{ route('producer.profile.edit') }}"
-                                            class="border border-gray-400 px-4 py-2 rounded text-center"
-                                        >
-
-                                            ویرایش پروفایل
-
-                                        </a>
+                            <div class="flex flex-col md:flex-row gap-3">
 
 
-                                    </div>
+                                <a
+                                    href="{{ route('products.create') }}"
+                                    class="bg-blue-600 text-white px-4 py-2 rounded text-center"
+                                >
+
+                                    ثبت محصول جدید
+
+                                </a>
 
 
-                                </div>
+
+                                <a
+                                    href="{{ route('products.index') }}"
+                                    class="border border-blue-600 text-blue-600 px-4 py-2 rounded text-center"
+                                >
+
+                                    مشاهده محصولات
+
+                                </a>
+
+
+
+                                <a
+                                    href="{{ route('producer.profile.edit') }}"
+                                    class="border border-gray-400 px-4 py-2 rounded text-center"
+                                >
+
+                                    ویرایش پروفایل
+
+                                </a>
 
 
                             </div>
@@ -205,7 +254,6 @@
 
 
 
-                        {{-- Latest Products --}}
 
                         <div class="border rounded-lg p-5">
 
@@ -236,33 +284,22 @@
 
 
                                                 <th class="border p-3 text-right">
-
                                                     نام محصول
-
                                                 </th>
 
 
-
                                                 <th class="border p-3 text-right">
-
                                                     دسته‌بندی
-
                                                 </th>
 
 
-
                                                 <th class="border p-3 text-right">
-
                                                     وضعیت
-
                                                 </th>
 
 
-
                                                 <th class="border p-3 text-right">
-
                                                     عملیات
-
                                                 </th>
 
 
@@ -277,13 +314,10 @@
                                         <tbody>
 
 
-
                                         @foreach($latestProducts as $product)
 
 
-
                                             <tr>
-
 
 
                                                 <td class="border p-3">
@@ -295,11 +329,34 @@
 
 
 
+
                                                 <td class="border p-3">
 
-                                                    {{ $product->category?->name ?? '-' }}
+
+                                                    @if($product->category)
+
+                                                        @if($product->category->parent)
+
+                                                            {{ $product->category->parent->name }}
+                                                            /
+                                                            {{ $product->category->name }}
+
+                                                        @else
+
+                                                            {{ $product->category->name }}
+
+                                                        @endif
+
+
+                                                    @else
+
+                                                        -
+
+                                                    @endif
+
 
                                                 </td>
+
 
 
 
@@ -334,6 +391,7 @@
 
 
 
+
                                                 <td class="border p-3">
 
 
@@ -350,13 +408,10 @@
                                                 </td>
 
 
-
                                             </tr>
 
 
-
                                         @endforeach
-
 
 
                                         </tbody>
@@ -372,13 +427,11 @@
                             @else
 
 
-
                                 <p class="text-gray-600">
 
                                     هنوز محصولی ثبت نشده است.
 
                                 </p>
-
 
 
                             @endif
@@ -390,17 +443,14 @@
 
 
 
+
                     @else
 
 
 
-                        {{-- Other Roles Dashboard --}}
-
                         <div class="border rounded-lg p-5">
 
-
                             داشبورد نقش شما در مرحله بعد توسعه داده می‌شود.
-
 
                         </div>
 
