@@ -12,114 +12,294 @@
 
     <div class="py-12">
 
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
 
-            <div class="mb-6">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
-                <a
-                    href="{{ route('products.create') }}"
-                    class="bg-blue-600 text-white px-5 py-2 rounded"
-                >
-                    ثبت محصول جدید
-                </a>
-
-            </div>
+                <div class="p-6 text-gray-900">
 
 
+                    <div class="flex justify-between items-center mb-6">
 
-            <div class="bg-white shadow-sm rounded-lg p-6">
+
+                        <h3 class="text-lg font-semibold">
+                            لیست محصولات
+                        </h3>
 
 
-                @if(session('success'))
 
-                    <div class="mb-4 bg-green-100 p-3 rounded">
+                        <a
+                            href="{{ route('products.create') }}"
+                            class="bg-blue-600 text-white px-4 py-2 rounded"
+                        >
 
-                        {{ session('success') }}
+                            ثبت محصول جدید
+
+                        </a>
+
 
                     </div>
 
-                @endif
 
 
 
-                @if($products->count())
+                    @if(session('success'))
+
+                        <div class="mb-4 text-green-600">
+
+                            {{ session('success') }}
+
+                        </div>
+
+                    @endif
 
 
-                    <div class="space-y-4">
 
 
-                        @foreach($products as $product)
+
+                    @if($products->count())
 
 
-                            <div class="border rounded-lg p-4">
+
+                        <div class="overflow-x-auto">
 
 
-                                <div class="flex justify-between items-center">
+                            <table class="min-w-full border">
 
 
-                                    <div>
+                                <thead>
 
 
-                                        <h3 class="font-bold text-lg">
+                                    <tr class="bg-gray-100">
+
+
+                                        <th class="border p-3 text-right">
+
+                                            نام محصول
+
+                                        </th>
+
+
+
+                                        <th class="border p-3 text-right">
+
+                                            دسته‌بندی
+
+                                        </th>
+
+
+
+                                        <th class="border p-3 text-right">
+
+                                            استان
+
+                                        </th>
+
+
+
+                                        <th class="border p-3 text-right">
+
+                                            شهر
+
+                                        </th>
+
+
+
+                                        <th class="border p-3 text-right">
+
+                                            وضعیت
+
+                                        </th>
+
+
+
+                                        <th class="border p-3 text-right">
+
+                                            عملیات
+
+                                        </th>
+
+
+                                    </tr>
+
+
+                                </thead>
+
+
+
+
+                                <tbody>
+
+
+                                @foreach($products as $product)
+
+
+                                    <tr>
+
+
+                                        <td class="border p-3">
 
                                             {{ $product->name }}
 
-                                        </h3>
-
-
-                                        <div class="text-sm text-gray-600">
-
-                                            {{ $product->category }}
-
-                                        </div>
-
-
-                                    </div>
+                                        </td>
 
 
 
-                                    <div>
 
-                                        <a
-                                            href="{{ route('products.show', $product) }}"
-                                            class="text-blue-600"
-                                        >
-                                            مشاهده
-                                        </a>
+                                        <td class="border p-3">
 
-                                    </div>
+                                            {{ $product->category?->name ?? '-' }}
+
+                                        </td>
 
 
-                                </div>
 
 
-                            </div>
+                                        <td class="border p-3">
+
+                                            {{ $product->province ?? '-' }}
+
+                                        </td>
 
 
-                        @endforeach
 
 
-                    </div>
+                                        <td class="border p-3">
+
+                                            {{ $product->city ?? '-' }}
+
+                                        </td>
 
 
-                @else
 
 
-                    <div class="text-gray-600">
-
-                        هنوز محصولی ثبت نشده است.
-
-                    </div>
+                                        <td class="border p-3">
 
 
-                @endif
+                                            @switch($product->status)
+
+                                                @case('active')
+
+                                                    فعال
+
+                                                    @break
+
+
+                                                @case('pending')
+
+                                                    در انتظار تایید
+
+                                                    @break
+
+
+                                                @default
+
+                                                    غیرفعال
+
+
+                                            @endswitch
+
+
+                                        </td>
+
+
+
+
+                                        <td class="border p-3">
+
+
+                                            <a
+                                                href="{{ route('products.show', $product->id) }}"
+                                                class="text-blue-600 mr-2"
+                                            >
+
+                                                مشاهده
+
+                                            </a>
+
+
+
+
+                                            <a
+                                                href="{{ route('products.edit', $product->id) }}"
+                                                class="text-green-600 mr-2"
+                                            >
+
+                                                ویرایش
+
+                                            </a>
+
+
+
+
+                                            <form
+                                                action="{{ route('products.destroy', $product->id) }}"
+                                                method="POST"
+                                                class="inline"
+                                            >
+
+                                                @csrf
+
+                                                @method('DELETE')
+
+
+                                                <button
+                                                    type="submit"
+                                                    class="text-red-600"
+                                                >
+
+                                                    حذف
+
+                                                </button>
+
+
+                                            </form>
+
+
+                                        </td>
+
+
+                                    </tr>
+
+
+                                @endforeach
+
+
+                                </tbody>
+
+
+                            </table>
+
+
+                        </div>
+
+
+
+
+                    @else
+
+
+                        <div class="text-gray-600">
+
+                            هنوز محصولی ثبت نکرده‌اید.
+
+                        </div>
+
+
+
+                    @endif
+
+
+
+                </div>
 
 
             </div>
 
 
         </div>
+
 
     </div>
 

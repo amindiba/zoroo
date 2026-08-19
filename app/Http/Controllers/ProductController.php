@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 
@@ -11,20 +12,18 @@ class ProductController extends Controller
 
     public function index()
     {
-
         $products = auth()
             ->user()
             ->products()
+            ->with('category')
             ->latest()
             ->get();
-
 
 
         return view(
             'products.index',
             compact('products')
         );
-
     }
 
 
@@ -32,9 +31,14 @@ class ProductController extends Controller
 
     public function create()
     {
+        $categories = Category::where('status', true)
+            ->get();
 
-        return view('products.create');
 
+        return view(
+            'products.create',
+            compact('categories')
+        );
     }
 
 
@@ -45,15 +49,37 @@ class ProductController extends Controller
 
         $data = $request->validate([
 
-            'name' => 'required|string|max:255',
+            'name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
 
-            'description' => 'nullable|string',
 
-            'category' => 'nullable|string|max:255',
+            'description' => [
+                'nullable',
+                'string'
+            ],
 
-            'province' => 'nullable|string|max:100',
 
-            'city' => 'nullable|string|max:100',
+            'category_id' => [
+                'required',
+                'exists:categories,id'
+            ],
+
+
+            'province' => [
+                'nullable',
+                'string',
+                'max:100'
+            ],
+
+
+            'city' => [
+                'nullable',
+                'string',
+                'max:100'
+            ],
 
         ]);
 
@@ -78,7 +104,6 @@ class ProductController extends Controller
                 'success',
                 'محصول با موفقیت ثبت شد.'
             );
-
     }
 
 
@@ -90,6 +115,7 @@ class ProductController extends Controller
         $product = auth()
             ->user()
             ->products()
+            ->with('category')
             ->findOrFail($id);
 
 
@@ -98,7 +124,6 @@ class ProductController extends Controller
             'products.show',
             compact('product')
         );
-
     }
 
 
@@ -114,11 +139,18 @@ class ProductController extends Controller
 
 
 
+        $categories = Category::where('status', true)
+            ->get();
+
+
+
         return view(
             'products.edit',
-            compact('product')
+            compact(
+                'product',
+                'categories'
+            )
         );
-
     }
 
 
@@ -136,15 +168,37 @@ class ProductController extends Controller
 
         $data = $request->validate([
 
-            'name' => 'required|string|max:255',
+            'name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
 
-            'description' => 'nullable|string',
 
-            'category' => 'nullable|string|max:255',
+            'description' => [
+                'nullable',
+                'string'
+            ],
 
-            'province' => 'nullable|string|max:100',
 
-            'city' => 'nullable|string|max:100',
+            'category_id' => [
+                'required',
+                'exists:categories,id'
+            ],
+
+
+            'province' => [
+                'nullable',
+                'string',
+                'max:100'
+            ],
+
+
+            'city' => [
+                'nullable',
+                'string',
+                'max:100'
+            ],
 
         ]);
 
@@ -153,14 +207,12 @@ class ProductController extends Controller
         $product->update($data);
 
 
-
         return redirect()
             ->route('products.index')
             ->with(
                 'success',
                 'محصول بروزرسانی شد.'
             );
-
     }
 
 

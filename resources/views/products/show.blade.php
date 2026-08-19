@@ -9,125 +9,190 @@
     </x-slot>
 
 
-
     <div class="py-12">
 
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
 
-            <div class="bg-white shadow-sm rounded-lg p-6">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+                <div class="p-6 text-gray-900">
 
 
-                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-6">
 
 
-                    <h1 class="text-2xl font-bold mb-3">
+                        <h3 class="text-lg font-semibold">
 
-                        {{ $product->name }}
+                            {{ $product->name }}
 
-                    </h1>
-
-
-                    <p class="text-gray-600">
-
-                        {{ $product->description }}
-
-                    </p>
-
-
-                </div>
+                        </h3>
 
 
 
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-
-
-                    <div class="bg-gray-100 rounded-lg p-4">
-
-                        <strong>
-                            دسته‌بندی:
-                        </strong>
-
-                        {{ $product->category ?? 'ثبت نشده' }}
-
-                    </div>
-
-
-
-                    <div class="bg-gray-100 rounded-lg p-4">
-
-                        <strong>
-                            وضعیت:
-                        </strong>
-
-                        {{ $product->status }}
-
-                    </div>
-
-
-
-                    <div class="bg-gray-100 rounded-lg p-4">
-
-                        <strong>
-                            استان:
-                        </strong>
-
-                        {{ $product->province ?? 'ثبت نشده' }}
-
-                    </div>
-
-
-
-                    <div class="bg-gray-100 rounded-lg p-4">
-
-                        <strong>
-                            شهر:
-                        </strong>
-
-                        {{ $product->city ?? 'ثبت نشده' }}
-
-                    </div>
-
-
-                </div>
-
-
-
-
-                <div class="mt-6 flex gap-3">
-
-
-                    <a
-                        href="{{ route('products.edit', $product) }}"
-                        class="bg-blue-600 text-white px-5 py-2 rounded"
-                    >
-                        ویرایش محصول
-                    </a>
-
-
-
-
-                    <form
-                        method="POST"
-                        action="{{ route('products.destroy', $product) }}"
-                    >
-
-                        @csrf
-
-                        @method('DELETE')
-
-
-                        <button
-                            type="submit"
-                            class="bg-red-600 text-white px-5 py-2 rounded"
+                        <a
+                            href="{{ route('products.edit', $product->id) }}"
+                            class="bg-green-600 text-white px-4 py-2 rounded"
                         >
-                            حذف محصول
-                        </button>
+
+                            ویرایش محصول
+
+                        </a>
 
 
-                    </form>
+                    </div>
+
+
+
+
+                    <div class="space-y-4">
+
+
+
+                        <div>
+
+                            <strong>
+                                نام محصول:
+                            </strong>
+
+
+                            {{ $product->name }}
+
+                        </div>
+
+
+
+
+                        <div>
+
+                            <strong>
+                                دسته‌بندی:
+                            </strong>
+
+
+                            {{ $product->category?->name ?? '-' }}
+
+                        </div>
+
+
+
+
+                        <div>
+
+                            <strong>
+                                توضیحات:
+                            </strong>
+
+
+                            <p class="mt-2">
+
+                                {{ $product->description ?? '-' }}
+
+                            </p>
+
+                        </div>
+
+
+
+
+                        <div>
+
+                            <strong>
+                                استان:
+                            </strong>
+
+
+                            {{ $product->province ?? '-' }}
+
+                        </div>
+
+
+
+
+                        <div>
+
+                            <strong>
+                                شهر:
+                            </strong>
+
+
+                            {{ $product->city ?? '-' }}
+
+                        </div>
+
+
+
+
+                        <div>
+
+                            <strong>
+                                وضعیت:
+                            </strong>
+
+
+
+                            @switch($product->status)
+
+                                @case('active')
+
+                                    فعال
+
+                                    @break
+
+
+                                @case('pending')
+
+                                    در انتظار تایید
+
+                                    @break
+
+
+                                @default
+
+                                    غیرفعال
+
+
+                            @endswitch
+
+
+                        </div>
+
+
+
+
+                        <div>
+
+                            <strong>
+                                تاریخ ثبت:
+                            </strong>
+
+
+                            {{ $product->created_at->format('Y-m-d') }}
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+                    <div class="mt-8">
+
+
+                        <a
+                            href="{{ route('products.index') }}"
+                            class="text-blue-600"
+                        >
+
+                            بازگشت به محصولات
+
+                        </a>
+
+
+                    </div>
+
 
 
                 </div>
@@ -137,6 +202,7 @@
 
 
         </div>
+
 
     </div>
 

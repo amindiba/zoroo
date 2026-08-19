@@ -9,79 +9,140 @@
     </x-slot>
 
 
-
     <div class="py-12">
 
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+                <div class="p-6 text-gray-900">
 
 
-            <div class="bg-white shadow-sm rounded-lg p-6">
+                    <form method="POST" action="{{ route('products.store') }}">
 
-
-                <form method="POST" action="{{ route('products.store') }}">
-
-                    @csrf
-
-
-
-                    <div class="mb-4">
-
-                        <label class="block mb-2">
-                            نام محصول
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="name"
-                            value="{{ old('name') }}"
-                            class="border rounded w-full p-2"
-                            required
-                        >
-
-
-                        @error('name')
-
-                            <div class="text-red-600 text-sm mt-1">
-
-                                {{ $message }}
-
-                            </div>
-
-                        @enderror
-
-
-                    </div>
+                        @csrf
 
 
 
-
-                    <div class="mb-4">
-
-                        <label class="block mb-2">
-                            دسته‌بندی محصول
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="category"
-                            value="{{ old('category') }}"
-                            class="border rounded w-full p-2"
-                        >
-
-                    </div>
-
-
-
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
+                        {{-- نام محصول --}}
 
                         <div class="mb-4">
 
                             <label class="block mb-2">
-                                استان تولید
+                                نام محصول
+                            </label>
+
+
+                            <input
+                                type="text"
+                                name="name"
+                                value="{{ old('name') }}"
+                                class="border rounded w-full p-2"
+                                required
+                            >
+
+
+                            @error('name')
+
+                                <span class="text-red-600">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+                        </div>
+
+
+
+
+                        {{-- دسته بندی محصول --}}
+
+                        <div class="mb-4">
+
+                            <label class="block mb-2">
+                                دسته‌بندی محصول
+                            </label>
+
+
+                            <select
+                                name="category_id"
+                                class="border rounded w-full p-2"
+                                required
+                            >
+
+                                <option value="">
+                                    انتخاب دسته‌بندی
+                                </option>
+
+
+
+                                @foreach($categories as $category)
+
+                                    <option
+                                        value="{{ $category->id }}"
+                                        {{ old('category_id') == $category->id ? 'selected' : '' }}
+                                    >
+
+                                        {{ $category->name }}
+
+                                    </option>
+
+                                @endforeach
+
+
+                            </select>
+
+
+                            @error('category_id')
+
+                                <span class="text-red-600">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+
+                        </div>
+
+
+
+
+                        {{-- توضیحات محصول --}}
+
+                        <div class="mb-4">
+
+                            <label class="block mb-2">
+                                توضیحات محصول
+                            </label>
+
+
+                            <textarea
+                                name="description"
+                                class="border rounded w-full p-2"
+                                rows="5"
+                            >{{ old('description') }}</textarea>
+
+
+                            @error('description')
+
+                                <span class="text-red-600">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+
+                        </div>
+
+
+
+
+                        {{-- استان --}}
+
+                        <div class="mb-4">
+
+                            <label class="block mb-2">
+                                استان
                             </label>
 
 
@@ -92,14 +153,27 @@
                                 class="border rounded w-full p-2"
                             >
 
+
+                            @error('province')
+
+                                <span class="text-red-600">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+
                         </div>
 
 
 
+
+                        {{-- شهر --}}
+
                         <div class="mb-4">
 
                             <label class="block mb-2">
-                                شهر تولید
+                                شهر
                             </label>
 
 
@@ -110,48 +184,37 @@
                                 class="border rounded w-full p-2"
                             >
 
+
+                            @error('city')
+
+                                <span class="text-red-600">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+
                         </div>
 
 
-                    </div>
 
 
+                        <button
+                            type="submit"
+                            class="bg-blue-600 text-white px-4 py-2 rounded"
+                        >
+
+                            ثبت محصول
+
+                        </button>
 
 
-                    <div class="mb-4">
-
-                        <label class="block mb-2">
-                            توضیحات محصول
-                        </label>
+                    </form>
 
 
-                        <textarea
-                            name="description"
-                            class="border rounded w-full p-2"
-                            rows="5"
-                        >{{ old('description') }}</textarea>
-
-
-                    </div>
-
-
-
-
-                    <button
-                        type="submit"
-                        class="bg-blue-600 text-white px-5 py-2 rounded"
-                    >
-
-                        ذخیره محصول
-
-                    </button>
-
-
-                </form>
-
+                </div>
 
             </div>
-
 
         </div>
 
