@@ -9,8 +9,22 @@ class ProducerProfileController extends Controller
 
     public function create()
     {
+        $profile = auth()
+            ->user()
+            ->producerProfile;
+
+
+        if ($profile) {
+
+            return redirect()
+                ->route('producer.profile.edit');
+
+        }
+
+
         return view('producer.profile.create');
     }
+
 
 
     public function store(Request $request)
@@ -22,9 +36,10 @@ class ProducerProfileController extends Controller
         if ($user->producerProfile) {
 
             return redirect()
-                ->route('producer.profile.show');
+                ->route('producer.profile.edit');
 
         }
+
 
 
         $data = $request->validate([
@@ -44,6 +59,7 @@ class ProducerProfileController extends Controller
         ]);
 
 
+
         $user->producerProfile()->create([
 
             ...$data,
@@ -51,6 +67,7 @@ class ProducerProfileController extends Controller
             'status' => 'pending',
 
         ]);
+
 
 
         return redirect()
@@ -64,12 +81,14 @@ class ProducerProfileController extends Controller
 
 
 
+
     public function show()
     {
 
         $profile = auth()
             ->user()
             ->producerProfile;
+
 
 
         return view(
@@ -81,12 +100,22 @@ class ProducerProfileController extends Controller
 
 
 
+
     public function edit()
     {
 
         $profile = auth()
             ->user()
             ->producerProfile;
+
+
+        if (!$profile) {
+
+            return redirect()
+                ->route('producer.profile.create');
+
+        }
+
 
 
         return view(
@@ -98,12 +127,22 @@ class ProducerProfileController extends Controller
 
 
 
+
     public function update(Request $request)
     {
 
         $profile = auth()
             ->user()
             ->producerProfile;
+
+
+        if (!$profile) {
+
+            return redirect()
+                ->route('producer.profile.create');
+
+        }
+
 
 
         $data = $request->validate([
@@ -123,11 +162,17 @@ class ProducerProfileController extends Controller
         ]);
 
 
+
         $profile->update($data);
 
 
+
         return redirect()
-            ->route('producer.profile.show');
+            ->route('producer.profile.show')
+            ->with(
+                'success',
+                'پروفایل تولیدکننده بروزرسانی شد.'
+            );
 
     }
 

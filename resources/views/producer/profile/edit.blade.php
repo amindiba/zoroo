@@ -3,7 +3,7 @@
     <x-slot name="header">
 
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            ثبت اطلاعات کارخانه
+            ویرایش پروفایل تولیدکننده
         </h2>
 
     </x-slot>
@@ -18,35 +18,27 @@
             <div class="bg-white shadow-sm rounded-lg p-6">
 
 
-                <form method="POST"
-                      action="{{ route('producer.profile.store') }}">
+                <form method="POST" action="{{ route('producer.profile.update') }}">
 
                     @csrf
+
+                    @method('PUT')
 
 
 
                     <div class="mb-4">
 
                         <label class="block mb-2">
-                            نام کارخانه
+                            نام شرکت
                         </label>
-
 
                         <input
                             type="text"
                             name="company_name"
-                            value="{{ old('company_name') }}"
-                            class="border rounded p-2 w-full"
+                            value="{{ old('company_name', $profile->company_name) }}"
+                            class="border rounded w-full p-2"
                             required
                         >
-
-                        @error('company_name')
-
-                            <div class="text-red-600 text-sm mt-1">
-                                {{ $message }}
-                            </div>
-
-                        @enderror
 
                     </div>
 
@@ -59,22 +51,13 @@
                             نام مدیر
                         </label>
 
-
                         <input
                             type="text"
                             name="manager_name"
-                            value="{{ old('manager_name') }}"
-                            class="border rounded p-2 w-full"
+                            value="{{ old('manager_name', $profile->manager_name) }}"
+                            class="border rounded w-full p-2"
                             required
                         >
-
-                        @error('manager_name')
-
-                            <div class="text-red-600 text-sm mt-1">
-                                {{ $message }}
-                            </div>
-
-                        @enderror
 
                     </div>
 
@@ -87,12 +70,11 @@
                             تلفن
                         </label>
 
-
                         <input
                             type="text"
                             name="phone"
-                            value="{{ old('phone') }}"
-                            class="border rounded p-2 w-full"
+                            value="{{ old('phone', $profile->phone) }}"
+                            class="border rounded w-full p-2"
                         >
 
                     </div>
@@ -109,16 +91,16 @@
                                 استان
                             </label>
 
-
                             <input
                                 type="text"
                                 name="province"
-                                value="{{ old('province') }}"
-                                class="border rounded p-2 w-full"
+                                value="{{ old('province', $profile->province) }}"
+                                class="border rounded w-full p-2"
                                 required
                             >
 
                         </div>
+
 
 
 
@@ -128,12 +110,11 @@
                                 شهر
                             </label>
 
-
                             <input
                                 type="text"
                                 name="city"
-                                value="{{ old('city') }}"
-                                class="border rounded p-2 w-full"
+                                value="{{ old('city', $profile->city) }}"
+                                class="border rounded w-full p-2"
                                 required
                             >
 
@@ -148,16 +129,14 @@
                     <div class="mb-4">
 
                         <label class="block mb-2">
-                            معرفی کوتاه
+                            توضیحات
                         </label>
-
 
                         <textarea
                             name="description"
-                            class="border rounded p-2 w-full"
+                            class="border rounded w-full p-2"
                             rows="5"
-                        >{{ old('description') }}</textarea>
-
+                        >{{ old('description', $profile->description) }}</textarea>
 
                     </div>
 
@@ -166,11 +145,9 @@
 
                     <button
                         type="submit"
-                        class="px-5 py-2 bg-black text-white rounded"
+                        class="bg-blue-600 text-white px-5 py-2 rounded"
                     >
-
-                        ذخیره اطلاعات
-
+                        ذخیره تغییرات
                     </button>
 
 
