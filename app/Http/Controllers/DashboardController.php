@@ -8,45 +8,25 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-
-
         if (!$user) {
-
             abort(403);
-
         }
-
-
 
         $user->load([
             'role',
             'producerProfile',
         ]);
 
-
-
         $role = $user->role?->slug;
 
-
-
         if (!$role) {
-
             abort(403, 'Invalid role');
-
         }
 
-
-
         $data = [
-
             'user' => $user,
-
             'role' => $role,
-
         ];
-
-
-
 
 
         /*
@@ -55,14 +35,11 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         */
 
-
         if ($role === 'producer') {
-
 
             $data['productCount'] = $user
                 ->products()
                 ->count();
-
 
 
             $data['latestProducts'] = $user
@@ -73,50 +50,34 @@ class DashboardController extends Controller
                 ->get();
 
 
-
-
             $profile = $user->producerProfile;
-
 
 
             $data['profileCompleted'] = false;
 
 
-
             if ($profile) {
 
-
                 $requiredFields = [
-
                     'company_name',
-
                     'manager_name',
-
                     'phone',
-
                     'province',
-
                     'city',
-
                 ];
-
 
 
                 $data['profileCompleted'] = collect($requiredFields)
                     ->every(function ($field) use ($profile) {
 
-                        return !empty($profile->$field);
+                        return filled($profile->$field);
 
                     });
-
 
             }
 
 
         }
-
-
-
 
 
         return view(

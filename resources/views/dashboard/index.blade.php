@@ -9,7 +9,6 @@
     </x-slot>
 
 
-
     <div class="py-12">
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -38,10 +37,7 @@
 
                         </p>
 
-
                     </div>
-
-
 
 
 
@@ -65,8 +61,9 @@
 
 
 
-                                <div class="border rounded p-4">
+                                {{-- Product Count --}}
 
+                                <div class="border rounded p-4">
 
                                     <div class="text-gray-600">
 
@@ -81,12 +78,12 @@
 
                                     </div>
 
-
                                 </div>
 
 
 
 
+                                {{-- Profile Status --}}
 
                                 <div class="border rounded p-4">
 
@@ -144,6 +141,7 @@
 
 
 
+                                {{-- Quick Actions --}}
 
                                 <div class="border rounded p-4">
 
@@ -171,7 +169,6 @@
 
 
 
-
                                         <a
                                             href="{{ route('products.index') }}"
                                             class="border border-blue-600 text-blue-600 px-4 py-2 rounded text-center"
@@ -180,7 +177,6 @@
                                             مشاهده محصولات
 
                                         </a>
-
 
 
 
@@ -200,7 +196,6 @@
                                 </div>
 
 
-
                             </div>
 
 
@@ -210,7 +205,7 @@
 
 
 
-
+                        {{-- Latest Products --}}
 
                         <div class="border rounded-lg p-5">
 
@@ -227,6 +222,7 @@
                             @if(isset($latestProducts) && $latestProducts->count())
 
 
+
                                 <div class="overflow-x-auto">
 
 
@@ -234,6 +230,7 @@
 
 
                                         <thead>
+
 
                                             <tr class="bg-gray-100">
 
@@ -261,10 +258,18 @@
                                                 </th>
 
 
+
+                                                <th class="border p-3 text-right">
+
+                                                    عملیات
+
+                                                </th>
+
+
                                             </tr>
 
-                                        </thead>
 
+                                        </thead>
 
 
 
@@ -272,10 +277,13 @@
                                         <tbody>
 
 
+
                                         @foreach($latestProducts as $product)
 
 
+
                                             <tr>
+
 
 
                                                 <td class="border p-3">
@@ -309,10 +317,14 @@
                                                         فعال
 
 
-                                                    @else
+                                                    @elseif($product->status === 'inactive')
 
                                                         غیرفعال
 
+
+                                                    @else
+
+                                                        نامشخص
 
                                                     @endif
 
@@ -320,10 +332,31 @@
                                                 </td>
 
 
+
+
+                                                <td class="border p-3">
+
+
+                                                    <a
+                                                        href="{{ route('products.show',$product) }}"
+                                                        class="text-blue-600"
+                                                    >
+
+                                                        مشاهده
+
+                                                    </a>
+
+
+                                                </td>
+
+
+
                                             </tr>
 
 
+
                                         @endforeach
+
 
 
                                         </tbody>
@@ -335,7 +368,9 @@
                                 </div>
 
 
+
                             @else
+
 
 
                                 <p class="text-gray-600">
@@ -343,6 +378,7 @@
                                     هنوز محصولی ثبت نشده است.
 
                                 </p>
+
 
 
                             @endif
@@ -353,18 +389,12 @@
 
 
 
-                    @endif
+
+                    @else
 
 
 
-
-
-
-
-                    {{-- سایر نقش‌ها --}}
-
-                    @if($role !== 'producer')
-
+                        {{-- Other Roles Dashboard --}}
 
                         <div class="border rounded-lg p-5">
 
@@ -373,6 +403,7 @@
 
 
                         </div>
+
 
 
                     @endif
@@ -385,7 +416,6 @@
 
 
         </div>
-
 
     </div>
 
