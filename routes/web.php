@@ -19,7 +19,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     )->name('dashboard');
 
 
-
     Route::get('/profile',
         [ProfileController::class, 'edit']
     )->name('profile.edit');
@@ -56,6 +55,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
             [ProducerProfileController::class, 'store']
         )->name('producer.profile.store');
 
+
+        Route::get(
+            '/producer/profile',
+            [ProducerProfileController::class, 'show']
+        )->name('producer.profile.show');
+
+
+        Route::get(
+            '/producer/profile/edit',
+            [ProducerProfileController::class, 'edit']
+        )->name('producer.profile.edit');
+
+
+        Route::put(
+            '/producer/profile',
+            [ProducerProfileController::class, 'update']
+        )->name('producer.profile.update');
 
     });
 

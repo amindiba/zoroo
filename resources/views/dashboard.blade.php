@@ -1,85 +1,57 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<x-app-layout>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="p-6">
 
-    <title>
-        Zoroo Dashboard
-    </title>
-
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-</head>
+    <h1 class="text-xl font-bold">
+        داشبورد تولیدکننده
+    </h1>
 
 
-<body class="bg-gray-100">
+    <p class="mt-4">
+        خوش آمدید {{ $user->name }}
+    </p>
 
 
-<div class="min-h-screen flex">
+    @if($user->producerProfile)
+
+        <div class="mt-4">
+
+            <p>
+                وضعیت پروفایل کارخانه:
+                {{ $user->producerProfile->status }}
+            </p>
 
 
-    {{-- Sidebar --}}
-    <aside class="w-64 bg-white shadow">
+            <a href="{{ route('producer.profile.show') }}">
+                مشاهده پروفایل کارخانه
+            </a>
 
-        <div class="p-4 font-bold text-xl">
-            Zoroo
+
+            <br>
+
+
+            <a href="{{ route('producer.profile.edit') }}">
+                ویرایش اطلاعات
+            </a>
+
         </div>
 
 
-        <nav class="p-4">
+    @else
 
-            <a href="/dashboard"
-               class="block py-2">
-                داشبورد
+
+        <div class="mt-4">
+
+            <a href="{{ route('producer.profile.create') }}">
+                ثبت اطلاعات کارخانه
             </a>
 
-
-            <a href="#"
-               class="block py-2">
-                پروفایل
-            </a>
+        </div>
 
 
-        </nav>
-
-
-    </aside>
-
-
-
-    {{-- Main --}}
-    <main class="flex-1 p-6">
-
-
-        <header class="mb-6">
-
-            <h1 class="text-xl font-bold">
-
-                {{ auth()->user()->name }}
-
-            </h1>
-
-            <span>
-
-                {{ auth()->user()->role->name }}
-
-            </span>
-
-        </header>
-
-
-
-        {{ $slot }}
-
-
-    </main>
+    @endif
 
 
 </div>
 
-
-</body>
-
-</html>
+</x-app-layout>
