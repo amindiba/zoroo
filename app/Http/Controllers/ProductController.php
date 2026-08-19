@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
-
 
 class ProductController extends Controller
 {
@@ -46,39 +45,38 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-
         $data = $request->validate([
 
             'name' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
 
 
             'description' => [
                 'nullable',
-                'string'
+                'string',
             ],
 
 
             'category_id' => [
                 'required',
-                'exists:categories,id'
+                'exists:categories,id',
             ],
 
 
             'province' => [
                 'nullable',
                 'string',
-                'max:100'
+                'max:100',
             ],
 
 
             'city' => [
                 'nullable',
                 'string',
-                'max:100'
+                'max:100',
             ],
 
         ]);
@@ -111,7 +109,6 @@ class ProductController extends Controller
 
     public function show(string $id)
     {
-
         $product = auth()
             ->user()
             ->products()
@@ -131,7 +128,6 @@ class ProductController extends Controller
 
     public function edit(string $id)
     {
-
         $product = auth()
             ->user()
             ->products()
@@ -158,7 +154,6 @@ class ProductController extends Controller
 
     public function update(Request $request, string $id)
     {
-
         $product = auth()
             ->user()
             ->products()
@@ -171,47 +166,54 @@ class ProductController extends Controller
             'name' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
 
 
             'description' => [
                 'nullable',
-                'string'
+                'string',
             ],
 
 
             'category_id' => [
                 'required',
-                'exists:categories,id'
+                'exists:categories,id',
             ],
 
 
             'province' => [
                 'nullable',
                 'string',
-                'max:100'
+                'max:100',
             ],
 
 
             'city' => [
                 'nullable',
                 'string',
-                'max:100'
+                'max:100',
             ],
 
         ]);
 
 
 
-        $product->update($data);
+        $product->update([
+
+            ...$data,
+
+            'status' => 'pending',
+
+        ]);
+
 
 
         return redirect()
             ->route('products.index')
             ->with(
                 'success',
-                'محصول بروزرسانی شد.'
+                'محصول بروزرسانی شد و برای بررسی مجدد ارسال گردید.'
             );
     }
 
@@ -220,7 +222,6 @@ class ProductController extends Controller
 
     public function destroy(string $id)
     {
-
         $product = auth()
             ->user()
             ->products()
@@ -233,8 +234,11 @@ class ProductController extends Controller
 
 
         return redirect()
-            ->route('products.index');
-
+            ->route('products.index')
+            ->with(
+                'success',
+                'محصول حذف شد.'
+            );
     }
 
 }
