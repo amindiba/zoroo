@@ -1,15 +1,13 @@
-<x-app-layout>
-
-<div class="p-6">
+<x-dashboard-layout>
 
 <h1 class="text-2xl font-bold">
 پنل مدیریت Zoroo
 </h1>
 
-<p class="mt-4">
-مدیریت کاربران، تولیدکنندگان و خریداران
+
+<p>
+مدیریت کاربران و سامانه
 </p>
 
-</div>
 
-</x-app-layout>
+</x-dashboard-layout>
