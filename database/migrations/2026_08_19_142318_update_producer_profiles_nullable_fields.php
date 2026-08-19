@@ -10,9 +10,7 @@ return new class extends Migration
 
     public function up(): void
     {
-
         Schema::table('producer_profiles', function (Blueprint $table) {
-
 
             $table->string('company_name')
                 ->nullable()
@@ -33,19 +31,14 @@ return new class extends Migration
                 ->nullable()
                 ->change();
 
-
         });
-
     }
-
 
 
 
     public function down(): void
     {
-
         Schema::table('producer_profiles', function (Blueprint $table) {
-
 
             $table->string('company_name')
                 ->nullable(false)
@@ -66,9 +59,7 @@ return new class extends Migration
                 ->nullable(false)
                 ->change();
 
-
         });
-
     }
 
 };
