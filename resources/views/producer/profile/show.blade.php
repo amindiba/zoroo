@@ -18,27 +18,36 @@
             <div class="bg-white shadow-sm rounded-lg p-6">
 
 
+
                 <div class="mb-6">
+
 
                     <h3 class="text-xl font-bold">
 
-                        {{ $profile->company_name }}
+                        {{ $profile->company_name ?? 'نام شرکت ثبت نشده' }}
 
                     </h3>
 
 
+
+
                     <div class="text-gray-600 mt-2">
 
-                        {{ $profile->description }}
+                        {{ $profile->description ?? 'توضیحاتی ثبت نشده است.' }}
 
                     </div>
+
 
                 </div>
 
 
 
 
+
+
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
 
 
                     <div class="bg-gray-100 p-4 rounded-lg">
@@ -47,9 +56,12 @@
                             مدیر:
                         </strong>
 
-                        {{ $profile->manager_name }}
+                        {{ $profile->manager_name ?? '-' }}
 
                     </div>
+
+
+
 
 
 
@@ -59,9 +71,12 @@
                             تلفن:
                         </strong>
 
-                        {{ $profile->phone }}
+                        {{ $profile->phone ?? '-' }}
 
                     </div>
+
+
+
 
 
 
@@ -71,9 +86,12 @@
                             استان:
                         </strong>
 
-                        {{ $profile->province }}
+                        {{ $profile->province ?? '-' }}
 
                     </div>
+
+
+
 
 
 
@@ -83,9 +101,12 @@
                             شهر:
                         </strong>
 
-                        {{ $profile->city }}
+                        {{ $profile->city ?? '-' }}
 
                     </div>
+
+
+
 
 
 
@@ -95,9 +116,34 @@
                             وضعیت:
                         </strong>
 
-                        {{ $profile->status }}
+
+
+                        @if($profile->status === 'approved')
+
+                            تایید شده
+
+
+                        @elseif($profile->status === 'pending')
+
+                            در انتظار بررسی
+
+
+                        @elseif($profile->status === 'rejected')
+
+                            رد شده
+
+
+                        @else
+
+                            {{ $profile->status ?? '-' }}
+
+
+                        @endif
+
 
                     </div>
+
+
 
 
                 </div>
@@ -105,22 +151,47 @@
 
 
 
-                <div class="mt-6">
+
+
+
+                <div class="mt-6 flex gap-3">
+
+
 
                     <a
                         href="{{ route('producer.profile.edit') }}"
                         class="bg-blue-600 text-white px-5 py-2 rounded"
                     >
+
                         ویرایش پروفایل
+
                     </a>
 
+
+
+
+
+                    <a
+                        href="{{ route('dashboard') }}"
+                        class="border px-5 py-2 rounded"
+                    >
+
+                        بازگشت به داشبورد
+
+                    </a>
+
+
+
                 </div>
+
+
 
 
             </div>
 
 
         </div>
+
 
     </div>
 

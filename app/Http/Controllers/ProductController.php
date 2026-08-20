@@ -3,29 +3,75 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 
 class ProductController extends Controller
 {
 
+    use AuthorizesRequests;
+
+
+
     public function index()
     {
 
-        $products = auth()
-            ->user()
-            ->products()
-            ->with('category.parent')
-            ->latest()
-            ->get();
+        $user = auth()->user();
+
+        $role = $user->role?->slug;
+
+
+
+        if ($role === 'admin') {
+
+
+            $products = Product::with([
+
+                    'category.parent',
+
+                    'user'
+
+                ])
+
+                ->latest()
+
+                ->get();
+
+
+        } else {
+
+
+            $products = $user
+
+                ->products()
+
+                ->with([
+
+                    'category.parent'
+
+                ])
+
+                ->latest()
+
+                ->get();
+
+
+        }
+
 
 
         return view(
+
             'products.index',
+
             compact('products')
+
         );
 
     }
+
 
 
 
@@ -34,15 +80,32 @@ class ProductController extends Controller
     public function create()
     {
 
+        $this->authorize(
+
+            'create',
+
+            Product::class
+
+        );
+
+
+
         $categories = Category::where('status', true)
+
             ->orderBy('parent_id')
+
             ->orderBy('name')
+
             ->get();
 
 
+
         return view(
+
             'products.create',
+
             compact('categories')
+
         );
 
     }
@@ -51,8 +114,20 @@ class ProductController extends Controller
 
 
 
+
+
     public function store(Request $request)
     {
+
+        $this->authorize(
+
+            'create',
+
+            Product::class
+
+        );
+
+
 
         $data = $request->validate([
 
@@ -60,7 +135,9 @@ class ProductController extends Controller
             'name' => [
 
                 'required',
+
                 'string',
+
                 'max:255',
 
             ],
@@ -70,6 +147,7 @@ class ProductController extends Controller
             'description' => [
 
                 'nullable',
+
                 'string',
 
             ],
@@ -79,6 +157,7 @@ class ProductController extends Controller
             'category_id' => [
 
                 'required',
+
                 'exists:categories,id',
 
             ],
@@ -88,7 +167,9 @@ class ProductController extends Controller
             'province' => [
 
                 'nullable',
+
                 'string',
+
                 'max:100',
 
             ],
@@ -98,7 +179,9 @@ class ProductController extends Controller
             'city' => [
 
                 'nullable',
+
                 'string',
+
                 'max:100',
 
             ],
@@ -109,8 +192,11 @@ class ProductController extends Controller
 
 
         auth()
+
             ->user()
+
             ->products()
+
             ->create([
 
                 ...$data,
@@ -121,13 +207,17 @@ class ProductController extends Controller
 
 
 
+
         return redirect()
 
             ->route('products.index')
 
             ->with(
+
                 'success',
+
                 'محصول با موفقیت ثبت شد.'
+
             );
 
     }
@@ -136,20 +226,41 @@ class ProductController extends Controller
 
 
 
+
+
     public function show(string $id)
     {
 
-        $product = auth()
-            ->user()
-            ->products()
-            ->with('category.parent')
+        $product = Product::with([
+
+                'category.parent',
+
+                'user'
+
+            ])
+
             ->findOrFail($id);
 
 
 
+
+        $this->authorize(
+
+            'view',
+
+            $product
+
+        );
+
+
+
+
         return view(
+
             'products.show',
+
             compact('product')
+
         );
 
     }
@@ -158,13 +269,24 @@ class ProductController extends Controller
 
 
 
+
+
     public function edit(string $id)
     {
 
-        $product = auth()
-            ->user()
-            ->products()
-            ->findOrFail($id);
+        $product = Product::findOrFail($id);
+
+
+
+
+        $this->authorize(
+
+            'update',
+
+            $product
+
+        );
+
 
 
 
@@ -178,12 +300,19 @@ class ProductController extends Controller
 
 
 
+
         return view(
+
             'products.edit',
+
             compact(
+
                 'product',
+
                 'categories'
+
             )
+
         );
 
     }
@@ -192,13 +321,24 @@ class ProductController extends Controller
 
 
 
+
+
     public function update(Request $request, string $id)
     {
 
-        $product = auth()
-            ->user()
-            ->products()
-            ->findOrFail($id);
+        $product = Product::findOrFail($id);
+
+
+
+
+        $this->authorize(
+
+            'update',
+
+            $product
+
+        );
+
 
 
 
@@ -208,7 +348,9 @@ class ProductController extends Controller
             'name' => [
 
                 'required',
+
                 'string',
+
                 'max:255',
 
             ],
@@ -218,6 +360,7 @@ class ProductController extends Controller
             'description' => [
 
                 'nullable',
+
                 'string',
 
             ],
@@ -227,6 +370,7 @@ class ProductController extends Controller
             'category_id' => [
 
                 'required',
+
                 'exists:categories,id',
 
             ],
@@ -236,7 +380,9 @@ class ProductController extends Controller
             'province' => [
 
                 'nullable',
+
                 'string',
+
                 'max:100',
 
             ],
@@ -246,7 +392,9 @@ class ProductController extends Controller
             'city' => [
 
                 'nullable',
+
                 'string',
+
                 'max:100',
 
             ],
@@ -267,16 +415,22 @@ class ProductController extends Controller
 
 
 
+
         return redirect()
 
             ->route('products.index')
 
             ->with(
+
                 'success',
+
                 'محصول بروزرسانی شد و برای بررسی مجدد ارسال گردید.'
+
             );
 
     }
+
+
 
 
 
@@ -285,14 +439,24 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
 
-        $product = auth()
-            ->user()
-            ->products()
-            ->findOrFail($id);
+        $product = Product::findOrFail($id);
+
+
+
+
+        $this->authorize(
+
+            'delete',
+
+            $product
+
+        );
+
 
 
 
         $product->delete();
+
 
 
 
@@ -301,10 +465,14 @@ class ProductController extends Controller
             ->route('products.index')
 
             ->with(
+
                 'success',
+
                 'محصول حذف شد.'
+
             );
 
     }
+
 
 }

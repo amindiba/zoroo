@@ -18,11 +18,28 @@
             <div class="bg-white shadow-sm rounded-lg p-6">
 
 
+
+                @if(session('success'))
+
+                    <div class="mb-4 text-green-600">
+
+                        {{ session('success') }}
+
+                    </div>
+
+                @endif
+
+
+
+
+
                 <form method="POST" action="{{ route('producer.profile.update') }}">
 
                     @csrf
 
                     @method('PUT')
+
+
 
 
 
@@ -32,15 +49,29 @@
                             نام شرکت
                         </label>
 
+
                         <input
                             type="text"
                             name="company_name"
-                            value="{{ old('company_name', $profile->company_name) }}"
+                            value="{{ old('company_name', $profile->company_name ?? '') }}"
                             class="border rounded w-full p-2"
                             required
                         >
 
+
+                        @error('company_name')
+
+                            <span class="text-red-600">
+                                {{ $message }}
+                            </span>
+
+                        @enderror
+
+
                     </div>
+
+
+
 
 
 
@@ -51,15 +82,29 @@
                             نام مدیر
                         </label>
 
+
                         <input
                             type="text"
                             name="manager_name"
-                            value="{{ old('manager_name', $profile->manager_name) }}"
+                            value="{{ old('manager_name', $profile->manager_name ?? '') }}"
                             class="border rounded w-full p-2"
                             required
                         >
 
+
+                        @error('manager_name')
+
+                            <span class="text-red-600">
+                                {{ $message }}
+                            </span>
+
+                        @enderror
+
+
                     </div>
+
+
+
 
 
 
@@ -70,19 +115,35 @@
                             تلفن
                         </label>
 
+
                         <input
                             type="text"
                             name="phone"
-                            value="{{ old('phone', $profile->phone) }}"
+                            value="{{ old('phone', $profile->phone ?? '') }}"
                             class="border rounded w-full p-2"
                         >
+
+
+                        @error('phone')
+
+                            <span class="text-red-600">
+                                {{ $message }}
+                            </span>
+
+                        @enderror
+
 
                     </div>
 
 
 
 
+
+
+
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
 
 
                         <div class="mb-4">
@@ -91,15 +152,29 @@
                                 استان
                             </label>
 
+
                             <input
                                 type="text"
                                 name="province"
-                                value="{{ old('province', $profile->province) }}"
+                                value="{{ old('province', $profile->province ?? '') }}"
                                 class="border rounded w-full p-2"
                                 required
                             >
 
+
+                            @error('province')
+
+                                <span class="text-red-600">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+
                         </div>
+
+
+
 
 
 
@@ -110,18 +185,34 @@
                                 شهر
                             </label>
 
+
                             <input
                                 type="text"
                                 name="city"
-                                value="{{ old('city', $profile->city) }}"
+                                value="{{ old('city', $profile->city ?? '') }}"
                                 class="border rounded w-full p-2"
                                 required
                             >
 
+
+                            @error('city')
+
+                                <span class="text-red-600">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+
                         </div>
 
 
+
                     </div>
+
+
+
+
 
 
 
@@ -132,32 +223,73 @@
                             توضیحات
                         </label>
 
+
                         <textarea
                             name="description"
                             class="border rounded w-full p-2"
                             rows="5"
-                        >{{ old('description', $profile->description) }}</textarea>
+                        >{{ old('description', $profile->description ?? '') }}</textarea>
+
+
+                        @error('description')
+
+                            <span class="text-red-600">
+                                {{ $message }}
+                            </span>
+
+                        @enderror
+
 
                     </div>
 
 
 
 
-                    <button
-                        type="submit"
-                        class="bg-blue-600 text-white px-5 py-2 rounded"
-                    >
-                        ذخیره تغییرات
-                    </button>
+
+
+
+
+                    <div class="flex gap-3">
+
+
+                        <button
+                            type="submit"
+                            class="bg-blue-600 text-white px-5 py-2 rounded"
+                        >
+
+                            ذخیره تغییرات
+
+                        </button>
+
+
+
+
+
+                        <a
+                            href="{{ route('producer.profile.show') }}"
+                            class="border px-5 py-2 rounded"
+                        >
+
+                            بازگشت
+
+                        </a>
+
+
+
+                    </div>
+
+
 
 
                 </form>
+
 
 
             </div>
 
 
         </div>
+
 
     </div>
 

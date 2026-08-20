@@ -13,9 +13,22 @@
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
                 <div class="p-6 text-gray-900">
+
+
+                    @if(session('success'))
+
+                        <div class="mb-4 text-green-600">
+
+                            {{ session('success') }}
+
+                        </div>
+
+                    @endif
+
 
 
                     <form method="POST" action="{{ route('products.update', $product->id) }}">
@@ -25,8 +38,6 @@
                         @method('PUT')
 
 
-
-                        {{-- نام محصول --}}
 
                         <div class="mb-4">
 
@@ -52,13 +63,12 @@
 
                             @enderror
 
+
                         </div>
 
 
 
 
-
-                        {{-- دسته بندی محصول --}}
 
                         <div class="mb-4">
 
@@ -86,7 +96,12 @@
                                         {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}
                                     >
 
-                                        {{ $category->parent_id ? '— ' : '' }}
+                                        @if($category->parent)
+
+                                            {{ $category->parent->name }} /
+
+                                        @endif
+
                                         {{ $category->name }}
 
                                     </option>
@@ -95,6 +110,7 @@
 
 
                             </select>
+
 
 
                             @error('category_id')
@@ -112,7 +128,7 @@
 
 
 
-                        {{-- توضیحات --}}
+
 
                         <div class="mb-4">
 
@@ -126,6 +142,7 @@
                                 class="border rounded w-full p-2"
                                 rows="5"
                             >{{ old('description', $product->description) }}</textarea>
+
 
 
                             @error('description')
@@ -143,30 +160,66 @@
 
 
 
-                        {{-- استان --}}
-
-                        <div class="mb-4">
-
-                            <label class="block mb-2">
-                                استان
-                            </label>
 
 
-                            <input
-                                type="text"
-                                name="province"
-                                value="{{ old('province', $product->province) }}"
-                                class="border rounded w-full p-2"
-                            >
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
 
-                            @error('province')
+                            <div class="mb-4">
 
-                                <span class="text-red-600">
-                                    {{ $message }}
-                                </span>
+                                <label class="block mb-2">
+                                    استان
+                                </label>
 
-                            @enderror
+
+                                <input
+                                    type="text"
+                                    name="province"
+                                    value="{{ old('province', $product->province) }}"
+                                    class="border rounded w-full p-2"
+                                >
+
+
+                                @error('province')
+
+                                    <span class="text-red-600">
+                                        {{ $message }}
+                                    </span>
+
+                                @enderror
+
+
+                            </div>
+
+
+
+
+
+                            <div class="mb-4">
+
+                                <label class="block mb-2">
+                                    شهر
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    name="city"
+                                    value="{{ old('city', $product->city) }}"
+                                    class="border rounded w-full p-2"
+                                >
+
+
+                                @error('city')
+
+                                    <span class="text-red-600">
+                                        {{ $message }}
+                                    </span>
+
+                                @enderror
+
+
+                            </div>
 
 
                         </div>
@@ -175,46 +228,34 @@
 
 
 
-                        {{-- شهر --}}
-
-                        <div class="mb-4">
-
-                            <label class="block mb-2">
-                                شهر
-                            </label>
 
 
-                            <input
-                                type="text"
-                                name="city"
-                                value="{{ old('city', $product->city) }}"
-                                class="border rounded w-full p-2"
+                        <div class="flex gap-3 mt-6">
+
+
+                            <button
+                                type="submit"
+                                class="bg-blue-600 text-white px-4 py-2 rounded"
                             >
 
+                                بروزرسانی محصول
 
-                            @error('city')
+                            </button>
 
-                                <span class="text-red-600">
-                                    {{ $message }}
-                                </span>
 
-                            @enderror
+
+                            <a
+                                href="{{ route('products.index') }}"
+                                class="border px-4 py-2 rounded"
+                            >
+
+                                بازگشت
+
+                            </a>
 
 
                         </div>
 
-
-
-
-
-                        <button
-                            type="submit"
-                            class="bg-blue-600 text-white px-4 py-2 rounded"
-                        >
-
-                            بروزرسانی محصول
-
-                        </button>
 
 
                     </form>
@@ -222,9 +263,12 @@
 
                 </div>
 
+
             </div>
 
+
         </div>
+
 
     </div>
 

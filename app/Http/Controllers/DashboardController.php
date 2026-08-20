@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Product;
+use App\Models\User;
+
+
 class DashboardController extends Controller
 {
 
@@ -18,7 +22,6 @@ class DashboardController extends Controller
             abort(403);
 
         }
-
 
 
 
@@ -64,6 +67,9 @@ class DashboardController extends Controller
 
 
 
+
+
+
         /*
         |--------------------------------------------------------------------------
         | Producer Dashboard Data
@@ -76,12 +82,26 @@ class DashboardController extends Controller
 
 
 
+            $user->load([
+
+                'products.category.parent',
+
+            ]);
+
+
+
+
             $products = $user->products();
 
 
 
 
-            $data['productCount'] = (clone $products)->count();
+
+            $data['productCount'] = (clone $products)
+
+                ->count();
+
+
 
 
 
@@ -94,11 +114,13 @@ class DashboardController extends Controller
 
 
 
+
             $data['activeProductCount'] = (clone $products)
 
                 ->where('status', 'active')
 
                 ->count();
+
 
 
 
@@ -114,11 +136,16 @@ class DashboardController extends Controller
 
 
 
+
             $data['latestProducts'] = $user
 
                 ->products()
 
-                ->with('category.parent')
+                ->with([
+
+                    'category.parent'
+
+                ])
 
                 ->latest()
 
@@ -131,11 +158,14 @@ class DashboardController extends Controller
 
 
 
+
             $profile = $user->producerProfile;
 
 
 
             $data['profileCompleted'] = false;
+
+
 
 
 
@@ -162,6 +192,8 @@ class DashboardController extends Controller
 
 
 
+
+
                 $data['profileCompleted'] = collect($requiredFields)
 
                     ->every(function ($field) use ($profile) {
@@ -176,7 +208,98 @@ class DashboardController extends Controller
             }
 
 
+
         }
+
+
+
+
+
+
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Dashboard Data
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        if ($role === 'admin') {
+
+
+
+            $data['userCount'] = User::count();
+
+
+
+            $data['productCount'] = Product::count();
+
+
+
+            $data['pendingProductCount'] = Product::where(
+
+                'status',
+
+                'pending'
+
+            )->count();
+
+
+
+
+
+            $data['latestProducts'] = Product::with([
+
+                    'user',
+
+                    'category.parent'
+
+                ])
+
+                ->latest()
+
+                ->take(10)
+
+                ->get();
+
+
+        }
+
+
+
+
+
+
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Buyer Dashboard Data
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        if ($role === 'buyer') {
+
+
+
+            $data['requestCount'] = 0;
+
+
+
+            $data['orderCount'] = 0;
+
+
+        }
+
+
+
+
 
 
 

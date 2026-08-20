@@ -13,6 +13,8 @@ class User extends Authenticatable
 
 
 
+
+
     protected $fillable = [
 
         'name',
@@ -28,6 +30,8 @@ class User extends Authenticatable
 
 
 
+
+
     protected $hidden = [
 
         'password',
@@ -35,6 +39,9 @@ class User extends Authenticatable
         'remember_token',
 
     ];
+
+
+
 
 
 
@@ -53,10 +60,48 @@ class User extends Authenticatable
 
 
 
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Role Constants
+    |--------------------------------------------------------------------------
+    */
+
+
+    public const ROLE_ADMIN = 'admin';
+
+
+    public const ROLE_PRODUCER = 'producer';
+
+
+    public const ROLE_BUYER = 'buyer';
+
+
+
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
+
+
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
+
+
 
 
 
@@ -71,6 +116,8 @@ class User extends Authenticatable
 
 
 
+
+
     public function buyerProfile()
     {
         return $this->hasOne(BuyerProfile::class);
@@ -80,9 +127,78 @@ class User extends Authenticatable
 
 
 
+
+
     public function products()
     {
         return $this->hasMany(Product::class);
     }
+
+
+
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Role Helpers
+    |--------------------------------------------------------------------------
+    */
+
+
+
+    public function hasRole(string $role): bool
+    {
+        return $this->role?->slug === $role;
+    }
+
+
+
+
+
+
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole(
+
+            self::ROLE_ADMIN
+
+        );
+    }
+
+
+
+
+
+
+
+    public function isProducer(): bool
+    {
+        return $this->hasRole(
+
+            self::ROLE_PRODUCER
+
+        );
+    }
+
+
+
+
+
+
+
+    public function isBuyer(): bool
+    {
+        return $this->hasRole(
+
+            self::ROLE_BUYER
+
+        );
+    }
+
 
 }

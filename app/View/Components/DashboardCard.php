@@ -6,13 +6,18 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+
 class DashboardCard extends Component
 {
+
+
     public string $title;
 
     public string $value;
 
     public string $description;
+
+
 
 
     public function __construct(
@@ -30,8 +35,17 @@ class DashboardCard extends Component
     }
 
 
+
+
+
     public function render(): View|Closure|string
     {
-        return view('components.dashboard-card');
+
+        return view(
+            'components.dashboard-card'
+        );
+
     }
+
+
 }

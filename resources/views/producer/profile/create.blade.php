@@ -10,18 +10,43 @@
 
 
 
+
+
     <div class="py-12">
 
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
 
+
             <div class="bg-white shadow-sm rounded-lg p-6">
+
+
+
+
+
+                @if(session('success'))
+
+                    <div class="mb-4 text-green-600">
+
+                        {{ session('success') }}
+
+                    </div>
+
+                @endif
+
+
+
+
 
 
                 <form method="POST"
                       action="{{ route('producer.profile.store') }}">
 
                     @csrf
+
+
+
+
 
 
 
@@ -40,6 +65,7 @@
                             required
                         >
 
+
                         @error('company_name')
 
                             <div class="text-red-600 text-sm mt-1">
@@ -48,7 +74,12 @@
 
                         @enderror
 
+
                     </div>
+
+
+
+
 
 
 
@@ -68,6 +99,7 @@
                             required
                         >
 
+
                         @error('manager_name')
 
                             <div class="text-red-600 text-sm mt-1">
@@ -76,7 +108,12 @@
 
                         @enderror
 
+
                     </div>
+
+
+
+
 
 
 
@@ -95,12 +132,30 @@
                             class="border rounded p-2 w-full"
                         >
 
+
+                        @error('phone')
+
+                            <div class="text-red-600 text-sm mt-1">
+                                {{ $message }}
+                            </div>
+
+                        @enderror
+
+
                     </div>
 
 
 
 
+
+
+
+
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+
 
 
                         <div class="mb-4">
@@ -118,7 +173,22 @@
                                 required
                             >
 
+
+                            @error('province')
+
+                                <div class="text-red-600 text-sm mt-1">
+                                    {{ $message }}
+                                </div>
+
+                            @enderror
+
+
                         </div>
+
+
+
+
+
 
 
 
@@ -137,10 +207,28 @@
                                 required
                             >
 
+
+                            @error('city')
+
+                                <div class="text-red-600 text-sm mt-1">
+                                    {{ $message }}
+                                </div>
+
+                            @enderror
+
+
                         </div>
 
 
+
+
+
                     </div>
+
+
+
+
+
 
 
 
@@ -159,30 +247,75 @@
                         >{{ old('description') }}</textarea>
 
 
+
+                        @error('description')
+
+                            <div class="text-red-600 text-sm mt-1">
+                                {{ $message }}
+                            </div>
+
+                        @enderror
+
+
                     </div>
 
 
 
 
-                    <button
-                        type="submit"
-                        class="px-5 py-2 bg-black text-white rounded"
-                    >
 
-                        ذخیره اطلاعات
 
-                    </button>
+
+
+
+                    <div class="flex gap-3">
+
+
+                        <button
+                            type="submit"
+                            class="px-5 py-2 bg-black text-white rounded"
+                        >
+
+                            ذخیره اطلاعات
+
+                        </button>
+
+
+
+
+
+                        <a
+                            href="{{ route('dashboard') }}"
+                            class="border px-5 py-2 rounded"
+                        >
+
+                            بازگشت
+
+                        </a>
+
+
+
+                    </div>
+
+
+
 
 
                 </form>
 
 
+
+
+
             </div>
+
 
 
         </div>
 
+
+
     </div>
+
 
 
 </x-app-layout>

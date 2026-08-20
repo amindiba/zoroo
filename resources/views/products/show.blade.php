@@ -157,19 +157,29 @@
 
 
 
-                            @if($product->status === 'active')
-
-                                فعال
-
-
-                            @elseif($product->status === 'pending')
+                            @if($product->status === 'pending')
 
                                 در انتظار تایید
 
 
-                            @else
+                            @elseif($product->status === 'approved')
+
+                                تایید شده
+
+
+                            @elseif($product->status === 'active')
+
+                                فعال
+
+
+                            @elseif($product->status === 'inactive')
 
                                 غیرفعال
+
+
+                            @else
+
+                                نامشخص
 
 
                             @endif

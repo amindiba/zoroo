@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 
 class BuyerProfile extends Model
 {
 
     use HasFactory;
+
 
 
 
@@ -35,6 +36,8 @@ class BuyerProfile extends Model
 
 
 
+
+
     protected function casts(): array
     {
         return [
@@ -48,9 +51,107 @@ class BuyerProfile extends Model
 
 
 
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Status Constants
+    |--------------------------------------------------------------------------
+    */
+
+
+
+    public const STATUS_PENDING = 'pending';
+
+
+    public const STATUS_ACTIVE = 'active';
+
+
+    public const STATUS_INACTIVE = 'inactive';
+
+
+
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+
+
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+
+
+
+    public function scopeActive($query)
+    {
+        return $query->where(
+
+            'status',
+
+            self::STATUS_ACTIVE
+
+        );
+    }
+
+
+
+
+
+
+
+    public function scopePending($query)
+    {
+        return $query->where(
+
+            'status',
+
+            self::STATUS_PENDING
+
+        );
+    }
+
+
+
+
+
+
+
+    public function scopeInactive($query)
+    {
+        return $query->where(
+
+            'status',
+
+            self::STATUS_INACTIVE
+
+        );
+    }
+
 
 }
